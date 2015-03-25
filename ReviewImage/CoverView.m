@@ -14,7 +14,9 @@
 
 - (id)initWithFrame:(CGRect)frame Scale:(CGFloat)scale Points:(NSString *)pointString{
     frame = [self adjustFrame:frame with:scale];
+    NSLog(@"%@",NSStringFromCGRect(frame));
     if (self = [super initWithFrame:frame]) {
+        [self setUserInteractionEnabled:YES];
         _scale = scale;
         [self setPointsWith:pointString];
     }
@@ -54,7 +56,6 @@
             }
         }
         CGContextSetFillColorWithColor(context, [UIColor yellowColor].CGColor);
-        CGContextFillPath(context);
         CGContextClosePath(context);
         CGContextDrawPath(context, kCGPathFillStroke);
         

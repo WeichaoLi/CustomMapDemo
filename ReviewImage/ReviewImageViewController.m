@@ -9,17 +9,18 @@
 #import "ReviewImageViewController.h"
 #import "SVProgressHUD.h"
 #import "KxMenu.h"
+#import "LWCViewController.h"
+#import "PopTableViewController.h"
 
-#define __IPHONE_SYSTEM_VERSION [[UIDevice currentDevice] systemVersion].floatValue
-#define IOS7 __IPHONE_SYSTEM_VERSION > 7.0
-
-@implementation ReviewImageViewController
+@implementation ReviewImageViewController {
+    PopTableViewController *popTableViewController;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        
 #ifdef __IPHONE_7_0
         if ([[UIDevice currentDevice].systemVersion floatValue] >= 7.0) {
             self.navigationController.navigationBar.translucent = NO;
@@ -33,24 +34,46 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor whiteColor];
     
-    if (!_buttonType) {
-        _buttonType = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [_buttonType setFrame:CGRectMake(0, 0, 80, 44)];
-//        [_buttonType sizeToFit];
-        _buttonType.tag = 110;
-        [_buttonType setTitle:@"检索类型" forState:UIControlStateNormal];
-        [_buttonType setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
-        [_buttonType addTarget:self action:@selector(ClickButton:Event:) forControlEvents:UIControlEventTouchUpInside];
+    self.view.backgroundColor = [UIColor whiteColor];
+    [self createUI];
+    _entityName = @"Department";
+    self.fetchController = [[FetchController alloc] initWithEntity:_entityName];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    _scrollView.bounds = self.view.bounds;
+    [self loadImage];
+}
+
+- (void)createUI {
+    if (!_buttonDepartment) {
+        _buttonDepartment = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [_buttonDepartment setFrame:CGRectMake(50, 0, 80, 44)];
+        _buttonDepartment.tag = 110;
+        [_buttonDepartment sizeToFit];
+        [_buttonDepartment setTitle:@"部门" forState:UIControlStateNormal];
+        [_buttonDepartment setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
+        [_buttonDepartment addTarget:self action:@selector(ClickButton:Event:) forControlEvents:UIControlEventTouchUpInside];
     }
     
-    UIBarButtonItem *typeButton  = [[UIBarButtonItem alloc] initWithCustomView:_buttonType];
-    self.navigationItem.leftBarButtonItems = @[typeButton];
+    if (!_buttonWindow) {
+        _buttonWindow = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [_buttonWindow setFrame:CGRectMake(20, 0, 80, 44)];
+        _buttonWindow.tag = 111;
+        [_buttonWindow sizeToFit];
+        [_buttonWindow setTitle:@"窗口" forState:UIControlStateNormal];
+        [_buttonWindow setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
+        [_buttonWindow addTarget:self action:@selector(ClickButton:Event:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    
+    UIBarButtonItem *DepartmentBarButton = [[UIBarButtonItem alloc] initWithCustomView:_buttonDepartment];
+    UIBarButtonItem *WindowBarButton = [[UIBarButtonItem alloc] initWithCustomView:_buttonWindow];
+    self.navigationItem.leftBarButtonItems = @[DepartmentBarButton,WindowBarButton];
     
     if (!_txtSearchKey) {
         _txtSearchKey = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 120, 30)];
@@ -64,35 +87,14 @@
     }
     
     UIBarButtonItem *keyButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_txtSearchKey];
-    //    self.navigationItem.rightBarButtonItem = keyButtonItem;
     self.navigationItem.rightBarButtonItems = @[keyButtonItem];
-}
-
-- (void)ClickButton:(id)sender Event:(UIEvent *)event{
-    NSLog(@"点击了按钮");
-    [_txtSearchKey resignFirstResponder];
-    showFrame = [[event.allTouches anyObject] view].frame;
-    showFrame.origin.y = -40;
-    if (!_typeArray) {
-        _typeArray = [NSMutableArray arrayWithCapacity:1];
-        [_typeArray addObject:[KxMenuItem menuItem:@"窗口" image:nil target:self action:@selector(typeItemClick:)]];
-        [_typeArray addObject:[KxMenuItem menuItem:@"部门" image:nil target:self action:@selector(typeItemClick:)]];
-        [_typeArray addObject:[KxMenuItem menuItem:@"关键字" image:nil target:self action:@selector(typeItemClick:)]];
-        
-    }
-    [KxMenu showMenuInView:self.view fromRect:showFrame menuItems:_typeArray];
-    
-}
-
-- (void)typeItemClick:(id)sender {
-    
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-} 
+}
 
 - (void)dealloc {
     _scrollView = nil;
@@ -119,13 +121,12 @@
     _scrollView.delegate = self;
     
     _containerView = [[UIView alloc] initWithFrame:self.view.bounds];
-    _containerView.backgroundColor = [UIColor yellowColor];
+    _containerView.backgroundColor = [UIColor clearColor];
     [_scrollView addSubview:_containerView];
     
     [self.view addSubview:_scrollView];
     
     /****************************手势***************************/
-    
     
     UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didDoubleTap:)];
     doubleTap.numberOfTapsRequired = 2;
@@ -137,16 +138,20 @@
     _imageOrientation = ImageOrientationPortrait;
 }
 
+/**
+ *  加载图片
+ */
 - (void)loadImage {
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"groundOne" ofType:@".jpg"];
-    NSData *imageData = [NSData dataWithContentsOfFile:filePath];
-    UIImage *image = [UIImage imageWithData:imageData];
-
-    self.imageView = [[UIImageView alloc] initWithImage:image];
-    [self imageDidChange];
+    if (_imageView == nil) {
+        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"groundOne" ofType:@".jpg"];
+        NSData *imageData = [NSData dataWithContentsOfFile:filePath];
+        UIImage *image = [UIImage imageWithData:imageData];
+        self.imageView = [[UIImageView alloc] initWithImage:image];
+        [self imageDidChange];
+    }
 }
 
-#pragma mark- Properties
+#pragma mark- 属性设置
 
 - (void)setImageView:(UIImageView *)imageView {
     if(imageView != _imageView){
@@ -170,7 +175,74 @@
     }
 }
 
-#pragma mark - 当图片改变:例如旋转
+/**
+ *  导航栏按钮点击事件
+ */
+- (void)ClickButton:(id)sender Event:(UIEvent *)event{
+    
+    [_txtSearchKey resignFirstResponder];
+
+    UIButton *button = (UIButton *)sender;
+    
+    if (!popTableViewController) {
+        popTableViewController = [[PopTableViewController alloc] init];
+        [popTableViewController setIsShow:NO];
+        
+        __weak ReviewImageViewController *weakSelf = self;
+        [popTableViewController setSelectCell:^(NSManagedObject *para){
+            [weakSelf searchWithPara:para];
+        }];
+        [self addChildViewController:popTableViewController];
+    }    
+
+    if (button.tag == 110) {
+        _searchType = SearchDepartment;
+        popTableViewController.dataArray = [_fetchController queryDataWithPredicate:nil InEntity:@"Department"];
+        popTableViewController.headerTitle = @"请选择部门";
+    }
+    
+    if (button.tag == 111) {
+//        LWCViewController *lwcVC = [[LWCViewController alloc] init];
+//        [self.navigationController pushViewController:lwcVC animated:YES];
+//        return;
+        _searchType = SearchWindow;
+        popTableViewController.dataArray = [_fetchController queryDataWithPredicate:nil InEntity:@"Window"];
+        popTableViewController.headerTitle = @"请选择窗口";
+    }
+    
+    if (!popTableViewController.isShow) {
+        [popTableViewController showInView:self.view];
+    }else {
+        [popTableViewController dismiss];
+    }
+}
+
+- (void)typeItemClick:(id)sender {
+    
+}
+
+- (void)searchWithPara:(NSManagedObject *)para {
+    switch (_searchType) {
+        case SearchKeyword:
+            
+            break;
+            
+        case SearchDepartment:{
+            Department *dept = (Department *)para;
+            [self addDisplayViewWithFrame:CGRectFromString(dept.dp_frame) Scale:initalScale Points:nil];
+        }
+        break; 
+            
+        case SearchWindow:
+            
+            break;
+            
+        default:
+            break;
+    }
+}
+
+#pragma mark - 当图片改变或例如旋转
 
 - (void)imageDidChange {
         
@@ -197,29 +269,41 @@
     
     _imageView.frame = _containerView.bounds;
     
-    NSString *pointString = @"{0,0}-{0,53}-{60,53}-{60,23}-{170,23}-{170,0}";
-    [self addShowViewWithFrame:CGRectMake(43, 52, 170, 53) Scale:initalScale Points:pointString];
-}
-
-- (void)addShowViewWithFrame:(CGRect)frame Scale:(CGFloat)scale Points:(NSString *)pointString {
-    [_showView removeFromSuperview];
-    _showView = nil;
-
-    if (!_showView) {
-        _showView  = [[CoverView alloc] initWithFrame:frame Scale:scale Points:pointString];
+    if (_showView == nil) {
+        _showView = [[UIView alloc] init];
         _showView.backgroundColor = [UIColor clearColor];
-        __weak ReviewImageViewController *VC = self;
-        [_showView setHandleTouch:^{
-            [VC handleTouch];
-        }];
-        [_showView setUserInteractionEnabled:YES];
         [_containerView insertSubview:_showView aboveSubview:_imageView];
-        
-        [_showView startflicker];
     }
+    _showView.frame = _containerView.bounds;
+    [_showView layoutSubviews];
     
-    [_scrollView zoomToRect:CGRectMake(_showView.center.x, _showView.center.y, 0, 0) animated:YES];
+//    NSString *pointString = @"{0,0}-{0,53}-{60,53}-{60,23}-{170,23}-{170,0}";
+//    [self addShowViewWithFrame:CGRectMake(43, 52, 170, 53) Scale:initalScale Points:pointString];
 }
+
+- (void)redrawDisplayView {
+//    for (CoverView *view in _showView.subviews) {
+//
+//    }
+}
+
+- (void)addDisplayViewWithFrame:(CGRect)frame Scale:(CGFloat)scale Points:(NSString *)pointString {
+    [_showView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    
+    CoverView *displayView = [[CoverView alloc] initWithFrame:frame Scale:scale Points:pointString];
+    
+    displayView.backgroundColor = [UIColor clearColor];
+    __weak ReviewImageViewController *weakSelf = self;
+    [displayView setHandleTouch:^{
+        [weakSelf handleTouch];
+    }];
+    [_showView insertSubview:displayView atIndex:0];
+    [displayView startflicker];
+    
+    [_scrollView zoomToRect:CGRectMake(displayView.center.x, displayView.center.y, 0, 0) animated:YES];
+}
+
+#pragma mark - 点击屏幕上的视图触发的事件
 
 - (void)handleTouch {
     if (!_infoView) {
@@ -242,17 +326,6 @@
     }
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    NSLog(@"========== %@", NSStringFromCGRect(self.view.frame));
-    _scrollView.bounds = self.view.bounds;
-    
-    NSLog(@"scrollview.frame:========== %@", NSStringFromCGRect(_scrollView.frame));
-    
-    [self loadImage];
-}
-
 #pragma mark- Scrollview delegate
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
@@ -271,18 +344,10 @@
     rct.origin.y = MAX((Hs-H)/2, 0);
     _containerView.frame = rct;
     
-    if (scrollView.zoomScale >= scrollView.maximumZoomScale) {
+//    if (scrollView.zoomScale >= scrollView.maximumZoomScale) {
 //        [self showPrompt:@"已放大到最大比例"];
-    }
+//    }
     currentScale = scrollView.zoomScale;
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-//    NSLog(@"\n");
-//    NSLog(@"%@",NSStringFromCGSize(scrollView.contentSize));
-//    NSLog(@"%@",NSStringFromCGPoint(scrollView.contentOffset));
-//    NSLog(@"%@",NSStringFromUIEdgeInsets(scrollView.contentInset));
-//    NSLog(@"%@",NSStringFromCGPoint(scrollView.center));
 }
 
 - (void)resetZoomScale {
@@ -305,10 +370,6 @@
 }
 
 #pragma mark - Tap gesture
-
-- (void)handleTap:(UITapGestureRecognizer *)gesture {
-
-}
 
 - (void)didDoubleTap:(UITapGestureRecognizer*)gesture {
     CGPoint touchPoint = [gesture locationInView:_scrollView];
@@ -339,7 +400,8 @@
     return YES;
 }
 
-#pragma mark prompt
+/*
+#pragma mark - 提示视图，例如图片已扩大到最大比例
 
 - (void)showPrompt:(NSString *)message {
     if (promptLable == nil) {
@@ -365,7 +427,7 @@
 
 - (void)hiddenPrompt {
     promptLable.hidden = YES;
-}
+}*/
 
 #pragma mark - Rotation
 
@@ -375,18 +437,18 @@
     _scrollView.zoomScale = scale;
 }
 
-#pragma -
 #pragma mark - UITextFieldDelegate
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    _searchType = SearchKeyword;
+    [popTableViewController dismiss];
+    return YES;
+}
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     [self.view endEditing:YES];
-    NSLog(@"开始搜索");
     return YES;
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-
 }
 
 @end

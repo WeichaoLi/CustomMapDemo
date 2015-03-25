@@ -7,7 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FetchController.h"
 #import "CoverView.h"
+
+typedef NS_ENUM(NSUInteger, SearchType){
+    SearchKeyword = 0,
+    SearchDepartment = 1,
+    SearchWindow,
+};
 
 typedef NS_ENUM(NSInteger, ImageOrientation) {
     ImageOrientationPortrait = UIInterfaceOrientationPortrait,
@@ -31,14 +38,18 @@ typedef NS_ENUM(NSInteger, ImageOrientation) {
 }
 
 @property (nonatomic, readonly) UIScrollView        *scrollView;
+@property (nonatomic, retain) NSString              *entityName;
 @property (nonatomic, strong) NSString              *ImageURL;
 @property (nonatomic, strong) UIImageView           *imageView;
 @property (nonatomic, assign) ImageOrientation      imageOrientation;
+@property (nonatomic, assign) SearchType            searchType;
 @property (nonatomic, retain) UIView                *containerView;
-@property (nonatomic, retain) CoverView             *showView;
-@property (nonatomic ,retain) UIButton              *buttonType;
+@property (nonatomic, retain) UIView                *showView;
+@property (nonatomic ,retain) UIButton              *buttonWindow;
 @property (nonatomic ,retain) UIButton              *buttonDepartment;
 @property (nonatomic ,retain) UITextField           *txtSearchKey;
 @property (nonatomic, retain) UIView                *infoView;
+
+@property (nonatomic, retain) FetchController *fetchController;
 
 @end
