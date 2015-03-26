@@ -132,6 +132,7 @@
     UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didDoubleTap:)];
     doubleTap.numberOfTapsRequired = 2;
     doubleTap.delegate = self;
+    doubleTap.delaysTouchesBegan = YES;
     [_containerView addGestureRecognizer:doubleTap];
     
     /****************************初始化***************************/
@@ -203,9 +204,9 @@
     }
     
     if (button.tag == 111) {
-        LWCViewController *lwcVC = [[LWCViewController alloc] init];
-        [self.navigationController pushViewController:lwcVC animated:YES];
-        return;
+//        LWCViewController *lwcVC = [[LWCViewController alloc] init];
+//        [self.navigationController pushViewController:lwcVC animated:YES];
+//        return;
         _searchType = SearchWindow;
         popTableViewController.dataArray = [_fetchController queryDataWithPredicate:nil InEntity:@"Window"];
         popTableViewController.headerTitle = @"请选择窗口";
@@ -235,9 +236,8 @@
         case SearchDepartment:{
             Department *dept = (Department *)para;
             [_showArray addObject:dept];
-            [self showAllView];
         }
-        break; 
+            break;
             
         case SearchWindow:{
             Window *window = (Window *)para;
@@ -293,34 +293,34 @@
 //    [self addShowViewWithFrame:CGRectMake(43, 52, 170, 53) Scale:initalScale Points:pointString];
 }
 
-- (void)redrawDisplayView {
-
-}
-
 - (void)showAllView {
+    [_infoView removeFromSuperview];
     [_showView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     if (_showArray.count) {
         for (NSManagedObject *obj in _showArray) {
             if ([obj isMemberOfClass:[Department class]]) {
                 Department *dept = (Department *)obj;
                 if (dept.dp_frame.length) {
-                    [self addDisplayViewWithFrame:CGRectFromString(dept.dp_frame) Scale:initalScale Points:dept.dp_points];
+                    [self addDisplayViewWithFrame:CGRectFromString(dept.dp_frame) Scale:initalScale Points:dept.dp_points Parameter:dept];
                 }
                 NSSet *windows = dept.windows;
                 for (Window *win in windows) {
                     if (win.wd_frame.length) {
-                        [self addDisplayViewWithFrame:CGRectFromString(win.wd_frame) Scale:initalScale Points:win.wd_points];
+                        [self addDisplayViewWithFrame:CGRectFromString(win.wd_frame) Scale:initalScale Points:win.wd_points Parameter:win];
                     }
                 }
             }
             if ([obj isMemberOfClass:[Window class]]) {
-//                Window *win = (Window *)obj;
+                Window *window = (Window *)obj;
+                if (window.wd_frame.length) {
+                    [self addDisplayViewWithFrame:CGRectFromString(window.wd_frame) Scale:initalScale Points:window.wd_points Parameter:window];
+                }
             }
         }
     }
 }
 
-- (void)addDisplayViewWithFrame:(CGRect)frame Scale:(CGFloat)scale Points:(NSString *)pointString {
+- (void)addDisplayViewWithFrame:(CGRect)frame Scale:(CGFloat)scale Points:(NSString *)pointString Parameter:(id)para {
     
 //    CoverView *displayView = [[CoverView alloc] initWithFrame:frame Scale:scale Points:pointString];
 //    
@@ -336,18 +336,18 @@
                                                            Scale:scale
                                                           Points:pointString
                                                           Target:self
-                                                          Action:@selector(handleTouch)
-                                                       Parameter:nil];
+                                                          Action:@selector(handleTouch:)
+                                                       Parameter:para];
     displayView.backgroundColor = [UIColor clearColor];
     [displayView startflicker];
-    [_showView insertSubview:displayView atIndex:0];
+    [_showView insertSubview:displayView atIndex:10];
     
     [_scrollView zoomToRect:CGRectMake(displayView.center.x, displayView.center.y, 0, 0) animated:YES];
 }
 
 #pragma mark - 点击屏幕上的视图触发的事件
 
-- (void)handleTouch {
+- (void)handleTouch:(id)para {
     if (!_infoView) {
         CGRect frame = self.view.frame;
         _infoView = [[UIView alloc] initWithFrame:CGRectMake(0, frame.size.height - 150, frame.size.width, 150)];
@@ -355,6 +355,22 @@
         _infoView.backgroundColor = [UIColor blackColor];
         _infoView.alpha = 0.7;
         [self.view insertSubview:_infoView aboveSubview:_scrollView];
+    }
+    [_infoView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    if (para) {
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, _infoView.frame.size.width, _infoView.frame.size.height)];
+        label.textColor = [UIColor whiteColor];
+        label.numberOfLines = 0;
+        if ([para isMemberOfClass:[Department class]]) {
+            Department *dept = (Department *)para;
+            label.text = dept.dp_frame;
+        }
+        if ([para isMemberOfClass:[Window class]]) {
+            Window *window = (Window *)para;
+            label.text = window.wd_frame;
+            NSLog(@"%@",label.text);
+        }
+        [_infoView addSubview:label];
     }
 }
 
@@ -375,6 +391,8 @@
 }
 
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView {
+    
+//    NSLog(@"%@",NSStringFromUIEdgeInsets(_scrollView.contentInset));
     
     CGFloat Ws = _scrollView.frame.size.width - _scrollView.contentInset.left - _scrollView.contentInset.right;
     CGFloat Hs = _scrollView.frame.size.height - _scrollView.contentInset.top - _scrollView.contentInset.bottom;
@@ -405,10 +423,11 @@
         Rw = MAX(Rw, _imageView.image.size.width / (scale * _scrollView.frame.size.height));
         Rh = MAX(Rh, _imageView.image.size.height / (scale * _scrollView.frame.size.width));
     }
-    
+
     _scrollView.contentSize = _imageView.frame.size;
     _scrollView.minimumZoomScale = 1;
-    _scrollView.maximumZoomScale = MAX(MAX(Rw, Rh), 1);
+//    _scrollView.maximumZoomScale = MAX(MAX(Rw, Rh), 1);
+    _scrollView.maximumZoomScale = 4;
 }
 
 #pragma mark - Tap gesture
@@ -432,7 +451,7 @@
     if (_scrollView.zoomScale != _scrollView.minimumZoomScale) {
         [_scrollView setZoomScale:_scrollView.minimumZoomScale animated:YES];
     }else {
-        [_scrollView zoomToRect:CGRectMake(touchPoint.x, touchPoint.y, 1, 1) animated:YES];
+        [_scrollView zoomToRect:CGRectMake(touchPoint.x, touchPoint.y, 0, 0) animated:YES];
     }
 }
 
@@ -477,6 +496,7 @@
     CGFloat scale  = currentScale;
     [self imageDidChange];
     _scrollView.zoomScale = scale;
+    [self showAllView];
 }
 
 #pragma mark - UITextFieldDelegate
@@ -489,8 +509,14 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
-    [self.view endEditing:YES];
+    if (textField.text.length) {
+        [self searchWithKeywords:textField.text];
+    }
     return YES;
+}
+
+- (void)searchWithKeywords:(NSString *)keyWords {
+    
 }
 
 @end

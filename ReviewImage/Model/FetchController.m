@@ -130,7 +130,16 @@
         if (fetchedObjects == nil) {
             return nil;
         }
-        return fetchedObjects;
+        
+        NSSortDescriptor *sort = nil;
+        if([entityName isEqualToString:NSStringFromClass([Department class])]) {
+            sort = [NSSortDescriptor sortDescriptorWithKey:@"dp_name" ascending:YES];
+        }
+        if ([entityName isEqualToString:NSStringFromClass([Window class])]) {
+            sort = [NSSortDescriptor sortDescriptorWithKey:@"wd_name" ascending:YES];
+        }
+
+        return [fetchedObjects sortedArrayUsingDescriptors:@[sort]];
     }
     return nil;
 }

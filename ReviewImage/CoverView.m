@@ -151,7 +151,7 @@
 //        }
         __strong id target = _target;
         if (target && [target respondsToSelector:_action]) {
-            [target performSelectorOnMainThread:_action withObject:self waitUntilDone:YES];
+            [target performSelectorOnMainThread:_action withObject:_para waitUntilDone:YES];
         }
     }else {
         [self.nextResponder touchesBegan:touches withEvent:event];
