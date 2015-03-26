@@ -128,7 +128,7 @@
 }
 
 #pragma mark -- 增加 Undo 支持
-//现在，这个功能可以被任何抖动触发，程序将会向 first responder 请求 undo manager，并且执行一次 undo 操作。在上个月的文章中，我们了解了，一个 view controller 也在响应链中（responder chain），这也正是我们将要使用的。在我们的 view controller 中，我们重写来自 UIResponder 类中的两个方法：
+//现在，这个功能可以被任何抖动触发，程序将会向 first responder 请求 undo manager，
 - (BOOL)canBecomeFirstResponder {
     return YES;
 }

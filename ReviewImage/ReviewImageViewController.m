@@ -202,9 +202,9 @@
     }
     
     if (button.tag == 111) {
-//        LWCViewController *lwcVC = [[LWCViewController alloc] init];
-//        [self.navigationController pushViewController:lwcVC animated:YES];
-//        return;
+        LWCViewController *lwcVC = [[LWCViewController alloc] init];
+        [self.navigationController pushViewController:lwcVC animated:YES];
+        return;
         _searchType = SearchWindow;
         popTableViewController.dataArray = [_fetchController queryDataWithPredicate:nil InEntity:@"Window"];
         popTableViewController.headerTitle = @"请选择窗口";
@@ -229,7 +229,8 @@
             
         case SearchDepartment:{
             Department *dept = (Department *)para;
-            [self addDisplayViewWithFrame:CGRectFromString(dept.dp_frame) Scale:initalScale Points:nil];
+            
+            [self addDisplayViewWithFrame:CGRectFromString(dept.dp_frame) Scale:initalScale Points:dept.dp_points];
         }
         break; 
             
@@ -282,23 +283,31 @@
 }
 
 - (void)redrawDisplayView {
-//    for (CoverView *view in _showView.subviews) {
-//
-//    }
+
 }
 
 - (void)addDisplayViewWithFrame:(CGRect)frame Scale:(CGFloat)scale Points:(NSString *)pointString {
     [_showView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
-    CoverView *displayView = [[CoverView alloc] initWithFrame:frame Scale:scale Points:pointString];
+//    CoverView *displayView = [[CoverView alloc] initWithFrame:frame Scale:scale Points:pointString];
+//    
+//    displayView.backgroundColor = [UIColor clearColor];
+//    __weak ReviewImageViewController *weakSelf = self;
+//    [displayView setHandleTouch:^{
+//        [weakSelf handleTouch];
+//    }];
+//    [_showView insertSubview:displayView atIndex:0];
+//    [displayView startflicker];
     
+    CoverView *displayView = [CoverView createCoverviewWithFrame:frame
+                                                           Scale:scale
+                                                          Points:pointString
+                                                          Target:self
+                                                          Action:@selector(handleTouch)
+                                                       Parameter:nil];
     displayView.backgroundColor = [UIColor clearColor];
-    __weak ReviewImageViewController *weakSelf = self;
-    [displayView setHandleTouch:^{
-        [weakSelf handleTouch];
-    }];
-    [_showView insertSubview:displayView atIndex:0];
     [displayView startflicker];
+    [_showView insertSubview:displayView atIndex:0];
     
     [_scrollView zoomToRect:CGRectMake(displayView.center.x, displayView.center.y, 0, 0) animated:YES];
 }

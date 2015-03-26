@@ -10,11 +10,12 @@
 
 #define POINT_MAKE(X) CGPointMake X
 
-@implementation CoverView
+@implementation CoverView {
+    CGMutablePathRef pathRef;
+}
 
-- (id)initWithFrame:(CGRect)frame Scale:(CGFloat)scale Points:(NSString *)pointString{
+- (id)initWithFrame:(CGRect)frame Scale:(CGFloat)scale Points:(NSString *)pointString {
     frame = [self adjustFrame:frame with:scale];
-    NSLog(@"%@",NSStringFromCGRect(frame));
     if (self = [super initWithFrame:frame]) {
         [self setUserInteractionEnabled:YES];
         _scale = scale;
@@ -29,10 +30,6 @@
     if (!_points) {
         _points = [NSArray arrayWithArray:array];
     }
-//    for (NSString *pointStr in array) {
-//        CGPoint point = CGPointFromString(pointStr);
-//        _points
-//    }
 }
 
 - (CGRect)adjustFrame:(CGRect)frame with:(CGFloat)scale {    
@@ -42,23 +39,50 @@
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
     
-    self.clipsToBounds = NO;
     if (_points.count) {
-
-        CGContextRef context = UIGraphicsGetCurrentContext();
+        /**
+         *  cgpath
+         */
+        CGContextRef gc = UIGraphicsGetCurrentContext();
+        pathRef = CGPathCreateMutable();
+        CGPoint initalPoint = CGPointZero;
         for (int i = 0; i < _points.count; i++) {
             CGPoint point = CGPointFromString(_points[i]);
             point = CGPointMake(point.x * _scale, point.y * _scale);
-            if (i == 0) {
-                CGContextMoveToPoint(context, point.x, point.y);
+            if (i==0) {
+                CGPathMoveToPoint(pathRef, NULL, point.x, point.y);
+                initalPoint = point;
             }else {
-                CGContextAddLineToPoint(context, point.x, point.y);
+                CGPathAddLineToPoint(pathRef, NULL, point.x, point.y);
             }
         }
-        CGContextSetFillColorWithColor(context, [UIColor yellowColor].CGColor);
-        CGContextClosePath(context);
-        CGContextDrawPath(context, kCGPathFillStroke);
+        CGPathAddLineToPoint(pathRef, NULL, initalPoint.x, initalPoint.y);
+        CGPathCloseSubpath(pathRef);
+        CGContextAddPath(gc, pathRef);
+        [[UIColor redColor] setFill];
+        CGContextFillPath(gc);
         
+        /**
+         *  cgcontext
+         *
+         */
+//        CGContextRef context = UIGraphicsGetCurrentContext();
+//        for (int i = 0; i < _points.count; i++) {
+//            CGPoint point = CGPointFromString(_points[i]);
+//            point = CGPointMake(point.x * _scale, point.y * _scale);
+//            if (i == 0) {
+//                CGContextMoveToPoint(context, point.x, point.y);
+//            }else {
+//                CGContextAddLineToPoint(context, point.x, point.y);
+//            }
+//        }
+//        CGContextSetFillColorWithColor(context, [UIColor redColor].CGColor);
+//        CGContextClosePath(context);
+//        CGContextDrawPath(context, kCGPathFillStroke);
+        
+        /**
+         *  bezier
+         */
 //        UIBezierPath* bezierPath = UIBezierPath.bezierPath;
 //        for (int i = 0; i < _points.count; i++) {
 //            CGPoint point = CGPointFromString(_points[i]);
@@ -77,7 +101,11 @@
 //        bezierPath.lineWidth = 1;
 //        [bezierPath stroke];
     }else {
-        [UIColor.yellowColor setFill];
+        pathRef = CGPathCreateMutable();
+        CGPathAddRect(pathRef, NULL, rect);
+        CGPathCloseSubpath(pathRef);
+        
+        [UIColor.redColor setFill];
         UIRectFill(rect);
     }
     
@@ -113,9 +141,44 @@
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    if (_handleTouch) {
-        _handleTouch();
+    UITouch *touch = [touches anyObject];
+    /**
+     *  判断点击的位置是不是在CGPath所绘的区域内
+     */
+    if (CGPathContainsPoint(pathRef, NULL, [touch locationInView:self], NO)) {
+//        if (_handleTouch) {
+//            _handleTouch();
+//        }
+        __strong id target = _target;
+        if (target && [target respondsToSelector:_action]) {
+            [target performSelectorOnMainThread:_action withObject:self waitUntilDone:YES];
+        }
+    }else {
+        [self.nextResponder touchesBegan:touches withEvent:event];
     }
+    
+}
+
+- (id)initWithFrame:(CGRect)frame Scale:(CGFloat)scale Points:(NSString *)pointString Target:(id)target Action:(SEL)action Parameter:(id)para {
+    frame = [self adjustFrame:frame with:scale];
+    if (self = [super initWithFrame:frame]) {
+        [self setUserInteractionEnabled:YES];
+        _scale = scale;
+        _target = target;
+        _action = action;
+        _para = para;
+        [self setPointsWith:pointString];
+    }
+    return self;
+}
+
++ (instancetype)createCoverviewWithFrame:(CGRect)frame Scale:(CGFloat)scale Points:(NSString *)pointString Target:(id)target Action:(SEL)action Parameter:(id)para{
+    return [[CoverView alloc] initWithFrame:frame Scale:scale Points:pointString Target:target Action:action Parameter:para];
+}
+
+- (void)removeFromSuperview {
+    [_timer invalidate];
+    _timer = nil;
 }
 
 @end
