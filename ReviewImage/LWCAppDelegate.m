@@ -7,7 +7,7 @@
 //
 
 #import "LWCAppDelegate.h"
-#import "ReviewImageViewController.h"
+#import "CustomMapViewController.h"
 
 @implementation LWCAppDelegate
 
@@ -15,7 +15,7 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-    self.viewController = [[ReviewImageViewController alloc] init];
+    self.viewController = [[CustomMapViewController alloc] init];
     self.nav = [[UINavigationController alloc] initWithRootViewController:self.viewController];
     self.window.rootViewController = self.nav;
     self.window.backgroundColor = [UIColor whiteColor];

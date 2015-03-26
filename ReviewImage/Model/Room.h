@@ -1,5 +1,5 @@
 //
-//  Window.h
+//  Room.h
 //  CustomMapDemo
 //
 //  Created by 李伟超 on 15/3/26.
@@ -11,12 +11,11 @@
 
 @class Department;
 
-@interface Window : NSManagedObject
+@interface Room : NSManagedObject
 
-@property (nonatomic, retain) NSString * wd_name;
-@property (nonatomic, retain) NSString * wd_frame;
-@property (nonatomic, retain) NSString * wd_points;
-@property (nonatomic, retain) NSString * wd_info;
+@property (nonatomic, retain) NSString * rm_info;
+@property (nonatomic, retain) NSString * rm_points;
+@property (nonatomic, retain) NSString * rm_frame;
 @property (nonatomic, retain) Department *dept;
 
 @end

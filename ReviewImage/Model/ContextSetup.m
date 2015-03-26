@@ -48,18 +48,20 @@
                                                                          options:nil
                                                                            error:&error];
     //当Core Data数据模型改变时，就会暂停操作。你可以通过设置选项来告诉Core Data在遇到这种情况后怎么做.例如删掉原有的数据库重新建立等。
-    if ([[NSFileManager defaultManager] fileExistsAtPath:_storeURL.path]) {
-        NSLog(@"================");
-    }
+    
     if (error) {
         NSLog(@"error: %@", error);
         
-//        NSPersistentStore *store = [[NSPersistentStore alloc] initWithPersistentStoreCoordinator:_managedObjectContext.persistentStoreCoordinator configurationName:nil URL:_storeURL options:nil];
-//        NSError *error;
-//        NSURL *storeURL = store.URL;
-//        NSPersistentStoreCoordinator *storeCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-//        [storeCoordinator removePersistentStore:store error:&error];
-//        [[NSFileManager defaultManager] removeItemAtPath:storeURL.path error:&error];
+//        NSFileManager *fileManager = [[NSFileManager alloc] init];
+//        if ([fileManager removeItemAtURL:_storeURL error:nil]) {
+//            NSLog(@"================");
+//            NSArray *components = [_storeURL.path componentsSeparatedByString:@"/"];
+//            NSLog(@"%@",components);
+////
+////            if ([fileManager createDirectoryAtURL:_storeURL withIntermediateDirectories:YES attributes:nil error:nil]) {
+////                [self setupManagedObjectContext];
+////            }
+//        }
     }
     self.managedObjectContext.undoManager = [[NSUndoManager alloc] init];
     

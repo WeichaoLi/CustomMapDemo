@@ -10,6 +10,7 @@
 #import "ContextSetup.h"
 #import "Department.h"
 #import "Window.h"
+#import "Room.h"
 
 @implementation FetchController
 
@@ -20,13 +21,20 @@
         self.managedObjectContext = contextSetup.managedObjectContext;
         [self setFetchedResultsController];
         
-        [self addObserver:self forKeyPath:@"entityName" options:NSKeyValueObservingOptionNew context:nil];
+//        [self addObserver:self forKeyPath:@"entityName" options:NSKeyValueObservingOptionNew context:nil];
     }
     return self;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     
+}
+
+- (void)dealloc {
+    [self removeObserver:self forKeyPath:@"entityName"];
+    _entityName = nil;
+    _fetchedResultsController = nil;
+    _managedObjectContext = nil;
 }
 
 /**
@@ -68,7 +76,7 @@
 - (NSURL*)storeURL {
     NSURL* documentsDirectory = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:NULL];
     
-    NSLog(@"数据库路径----\n%@\n",[documentsDirectory URLByAppendingPathComponent:@"data/db.sqlite"]);
+    NSLog(@"数据库路径----\n\n%@\n\n",[documentsDirectory URLByAppendingPathComponent:@"data/db.sqlite"]);
     [[NSFileManager defaultManager] createDirectoryAtURL:[documentsDirectory URLByAppendingPathComponent:@"data"] withIntermediateDirectories:YES attributes:nil error:nil];
     
     return [documentsDirectory URLByAppendingPathComponent:@"data/db.sqlite"];

@@ -38,38 +38,38 @@
     
     UIButton *button = (UIButton *)sender;
     if (button.tag == 0) {
-//        Department *department = [NSEntityDescription insertNewObjectForEntityForName:@"Department" inManagedObjectContext:_fetchController.managedObjectContext];
-//        
-//        department.dp_frame = [NSString stringWithFormat:@"{{45, 53},{268, 145}}"];
-//        department.dp_points = @"{0,0}-{0,147}-{60,147}-{60,23}-{270,23}-{270,0}";
-//        department.dp_department = @"房地产交易中心";
-//        department.dp_info = @"房地产";
-//        
-//        NSArray *array = @[@"34",@"35",@"36",@"37",@"38",@"39",@"40",@"41",@"42"];
-//        for (NSString *str in array) {
-//            Window *window = [NSEntityDescription insertNewObjectForEntityForName:@"Window" inManagedObjectContext:_fetchController.managedObjectContext];
-//            window.wd_name = str;
-//            window.department = department;
-//        }
-//        NSLog(@"%@",department.objectID);
-//        
-//        //保存
-//        NSError *error = nil;
-//        if (![_fetchController.managedObjectContext save:&error]) {
-//            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-//            abort();
-//        }else {
-//            NSLog(@"保存成功");
-//            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Department"];
-//            NSLog(@"%@",[_fetchController.managedObjectContext executeFetchRequest:fetchRequest error:&error]);
-//        }
+        Department *department = [NSEntityDescription insertNewObjectForEntityForName:@"Department" inManagedObjectContext:_fetchController.managedObjectContext];
+        
+        department.dp_frame = [NSString stringWithFormat:@"{{45, 53},{268, 145}}"];
+        department.dp_points = @"{0,0}-{0,147}-{60,147}-{60,23}-{270,23}-{270,0}";
+        department.dp_name = @"房地产交易中心";
+        department.dp_info = @"房地产";
+        
+        NSArray *array = @[@"34",@"35",@"36",@"37",@"38",@"39",@"40",@"41",@"42"];
+        for (NSString *str in array) {
+            Window *window = [NSEntityDescription insertNewObjectForEntityForName:@"Window" inManagedObjectContext:_fetchController.managedObjectContext];
+            window.wd_name = str;
+            window.dept = department;
+        }
+        NSLog(@"%@",department.objectID);
+        
+        //保存
+        NSError *error = nil;
+        if (![_fetchController.managedObjectContext save:&error]) {
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            abort();
+        }else {
+            NSLog(@"保存成功");
+            NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Department"];
+            NSLog(@"%@",[_fetchController.managedObjectContext executeFetchRequest:fetchRequest error:&error]);
+        }
     }else {
         /**
          *  方法一
          */
         
 //        NSEntityDescription *entityDes = [NSEntityDescription entityForName:@"Department" inManagedObjectContext:_fetchController.managedObjectContext];
-//        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dp_department = %@",@"婚姻（收养）登记中心"];
+//        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dp_name = %@",@"婚姻（收养）登记中心"];
 //        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
 //        [fetchRequest setEntity:entityDes];
 //        [fetchRequest setPredicate:predicate];
@@ -113,7 +113,7 @@
         }else {
             NSLog(@"%@",array);
             
-            NSPredicate *filter = [NSPredicate predicateWithFormat:@"department.dp_department == '婚姻（收养）登记中心'"];
+            NSPredicate *filter = [NSPredicate predicateWithFormat:@"dept.dp_name == '婚姻（收养）登记中心'"];
             NSArray *resArr = [array filteredArrayUsingPredicate:filter];
 
             for (Window *window in resArr) {

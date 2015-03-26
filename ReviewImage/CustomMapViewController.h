@@ -27,7 +27,7 @@ typedef NS_ENUM(NSInteger, ImageOrientation) {
 
 @end
 
-@interface ReviewImageViewController : UIViewController<UIGestureRecognizerDelegate, UIScrollViewDelegate, UITextFieldDelegate> {
+@interface CustomMapViewController : UIViewController<UIGestureRecognizerDelegate, UIScrollViewDelegate, UITextFieldDelegate> {
     CGFloat initalScale;
     CGFloat currentScale;
     UILabel *promptLable;  //提示

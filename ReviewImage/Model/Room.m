@@ -1,21 +1,20 @@
 //
-//  Window.m
+//  Room.m
 //  CustomMapDemo
 //
 //  Created by 李伟超 on 15/3/26.
 //  Copyright (c) 2015年 LWC. All rights reserved.
 //
 
-#import "Window.h"
+#import "Room.h"
 #import "Department.h"
 
 
-@implementation Window
+@implementation Room
 
-@dynamic wd_name;
-@dynamic wd_frame;
-@dynamic wd_points;
-@dynamic wd_info;
+@dynamic rm_info;
+@dynamic rm_points;
+@dynamic rm_frame;
 @dynamic dept;
 
 @end

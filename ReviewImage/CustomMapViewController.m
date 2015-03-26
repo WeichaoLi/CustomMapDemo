@@ -6,13 +6,13 @@
 //  Copyright (c) 2014年 LWC. All rights reserved.
 //
 
-#import "ReviewImageViewController.h"
+#import "CustomMapViewController.h"
 #import "SVProgressHUD.h"
 #import "KxMenu.h"
 #import "LWCViewController.h"
 #import "PopTableViewController.h"
 
-@implementation ReviewImageViewController {
+@implementation CustomMapViewController {
     PopTableViewController *popTableViewController;
 }
 
@@ -41,6 +41,7 @@
     [self createUI];
     _entityName = @"Department";
     self.fetchController = [[FetchController alloc] initWithEntity:_entityName];
+    _showArray = [NSMutableArray array];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -53,9 +54,9 @@
 - (void)createUI {
     if (!_buttonDepartment) {
         _buttonDepartment = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [_buttonDepartment setFrame:CGRectMake(50, 0, 80, 44)];
+        [_buttonDepartment setFrame:CGRectMake(0, 0, 70, 44)];
         _buttonDepartment.tag = 110;
-        [_buttonDepartment sizeToFit];
+//        [_buttonDepartment sizeToFit];
         [_buttonDepartment setTitle:@"部门" forState:UIControlStateNormal];
         [_buttonDepartment setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
         [_buttonDepartment addTarget:self action:@selector(ClickButton:Event:) forControlEvents:UIControlEventTouchUpInside];
@@ -63,9 +64,9 @@
     
     if (!_buttonWindow) {
         _buttonWindow = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [_buttonWindow setFrame:CGRectMake(20, 0, 80, 44)];
+        [_buttonWindow setFrame:CGRectMake(0, 0, 70, 44)];
         _buttonWindow.tag = 111;
-        [_buttonWindow sizeToFit];
+//        [_buttonWindow sizeToFit];
         [_buttonWindow setTitle:@"窗口" forState:UIControlStateNormal];
         [_buttonWindow setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
         [_buttonWindow addTarget:self action:@selector(ClickButton:Event:) forControlEvents:UIControlEventTouchUpInside];
@@ -188,9 +189,9 @@
         popTableViewController = [[PopTableViewController alloc] init];
         [popTableViewController setIsShow:NO];
         
-        __weak ReviewImageViewController *weakSelf = self;
+        __weak CustomMapViewController *weakSelf = self;
         [popTableViewController setSelectCell:^(NSManagedObject *para){
-            [weakSelf searchWithPara:para];
+            [weakSelf displayWithPara:para];
         }];
         [self addChildViewController:popTableViewController];
     }    
@@ -221,26 +222,36 @@
     
 }
 
-- (void)searchWithPara:(NSManagedObject *)para {
+/**
+ *  显示窗口、部门查询结果
+ *
+ *  @param para 部门或窗口对象
+ */
+- (void)displayWithPara:(NSManagedObject *)para {
+    //清空显示列表
+    _showArray = [NSMutableArray array];
     switch (_searchType) {
-        case SearchKeyword:
-            
-            break;
             
         case SearchDepartment:{
             Department *dept = (Department *)para;
-            
-            [self addDisplayViewWithFrame:CGRectFromString(dept.dp_frame) Scale:initalScale Points:dept.dp_points];
+            [_showArray addObject:dept];
+            [self showAllView];
         }
         break; 
             
-        case SearchWindow:
+        case SearchWindow:{
+            Window *window = (Window *)para;
+            [_showArray addObject:window];
             
+        }
             break;
             
         default:
             break;
     }
+    
+    //在图上显示查询结果
+    [self showAllView];
 }
 
 #pragma mark - 当图片改变或例如旋转
@@ -286,8 +297,30 @@
 
 }
 
-- (void)addDisplayViewWithFrame:(CGRect)frame Scale:(CGFloat)scale Points:(NSString *)pointString {
+- (void)showAllView {
     [_showView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    if (_showArray.count) {
+        for (NSManagedObject *obj in _showArray) {
+            if ([obj isMemberOfClass:[Department class]]) {
+                Department *dept = (Department *)obj;
+                if (dept.dp_frame.length) {
+                    [self addDisplayViewWithFrame:CGRectFromString(dept.dp_frame) Scale:initalScale Points:dept.dp_points];
+                }
+                NSSet *windows = dept.windows;
+                for (Window *win in windows) {
+                    if (win.wd_frame.length) {
+                        [self addDisplayViewWithFrame:CGRectFromString(win.wd_frame) Scale:initalScale Points:win.wd_points];
+                    }
+                }
+            }
+            if ([obj isMemberOfClass:[Window class]]) {
+//                Window *win = (Window *)obj;
+            }
+        }
+    }
+}
+
+- (void)addDisplayViewWithFrame:(CGRect)frame Scale:(CGFloat)scale Points:(NSString *)pointString {
     
 //    CoverView *displayView = [[CoverView alloc] initWithFrame:frame Scale:scale Points:pointString];
 //    
@@ -326,7 +359,7 @@
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self.view endEditing:YES];
+    [_txtSearchKey resignFirstResponder];
     UITouch *touch = [touches anyObject];
     CGPoint point = [touch locationInView:_infoView];
     if (point.x<0 || point.y <0) {
@@ -399,7 +432,7 @@
     if (_scrollView.zoomScale != _scrollView.minimumZoomScale) {
         [_scrollView setZoomScale:_scrollView.minimumZoomScale animated:YES];
     }else {
-        [_scrollView zoomToRect:CGRectMake(touchPoint.x, touchPoint.y, _scrollView.maximumZoomScale, _scrollView.maximumZoomScale) animated:YES];
+        [_scrollView zoomToRect:CGRectMake(touchPoint.x, touchPoint.y, 1, 1) animated:YES];
     }
 }
 

@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-@class ReviewImageViewController;
+@class CustomMapViewController;
 
 @interface LWCAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UINavigationController *nav;
-@property (strong, nonatomic) ReviewImageViewController *viewController;
+@property (strong, nonatomic) CustomMapViewController *viewController;
 
 @end

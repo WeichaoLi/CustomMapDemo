@@ -177,6 +177,7 @@
 }
 
 - (void)removeFromSuperview {
+    [super removeFromSuperview];
     [_timer invalidate];
     _timer = nil;
 }

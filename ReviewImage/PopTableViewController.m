@@ -73,7 +73,7 @@
     if ([obj isMemberOfClass:[Department class]]) {
         
         Department *dept = (Department *)obj;
-        cell.textLabel.text = dept.dp_department;
+        cell.textLabel.text = dept.dp_name;
         
     }else if ([obj isMemberOfClass:[Window class]]) {
         

@@ -1,20 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6254" systemVersion="14C1510" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Department" representedClassName="Department" syncable="YES">
-        <attribute name="dp_department" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dp_frame" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dp_id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="dp_info" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dp_name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dp_points" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="dp_room" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="windows" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Window" inverseName="department" inverseEntity="Window" syncable="YES"/>
+        <relationship name="rooms" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Room" inverseName="dept" inverseEntity="Room" syncable="YES"/>
+        <relationship name="windows" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Window" inverseName="dept" inverseEntity="Window" syncable="YES"/>
+    </entity>
+    <entity name="Room" representedClassName="Room" syncable="YES">
+        <attribute name="rm_frame" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="rm_info" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="rm_points" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="dept" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Department" inverseName="rooms" inverseEntity="Department" syncable="YES"/>
     </entity>
     <entity name="Window" representedClassName="Window" syncable="YES">
+        <attribute name="wd_frame" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="wd_info" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="wd_name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="department" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Department" inverseName="windows" inverseEntity="Department" syncable="YES"/>
+        <attribute name="wd_points" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="dept" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Department" inverseName="windows" inverseEntity="Department" syncable="YES"/>
     </entity>
     <elements>
         <element name="Department" positionX="-369" positionY="18" width="128" height="148"/>
-        <element name="Window" positionX="-27" positionY="81" width="128" height="73"/>
+        <element name="Window" positionX="-27" positionY="81" width="128" height="118"/>
+        <element name="Room" positionX="-198" positionY="90" width="128" height="103"/>
     </elements>
 </model>
