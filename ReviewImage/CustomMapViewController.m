@@ -356,6 +356,7 @@
         _infoView.alpha = 0.7;
         [self.view insertSubview:_infoView aboveSubview:_scrollView];
     }
+    [_infoView setHidden:NO];
     [_infoView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     if (para) {
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, _infoView.frame.size.width, _infoView.frame.size.height)];
@@ -379,8 +380,9 @@
     UITouch *touch = [touches anyObject];
     CGPoint point = [touch locationInView:_infoView];
     if (point.x<0 || point.y <0) {
-        [_infoView removeFromSuperview];
-        _infoView = nil;
+        [_infoView setHidden:YES];
+//        [_infoView removeFromSuperview];
+//        _infoView = nil;
     }
 }
 
