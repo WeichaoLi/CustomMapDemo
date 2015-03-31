@@ -182,7 +182,8 @@
 }
 
 - (void)removeFromSuperview {
-    [_timer invalidate];
+//    [_timer invalidate];
+    [_timer removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
     _timer = nil;
     [super removeFromSuperview];
 }
