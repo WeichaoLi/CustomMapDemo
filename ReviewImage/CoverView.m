@@ -7,11 +7,13 @@
 //
 
 #import "CoverView.h"
+#import <QuartzCore/CADisplayLink.h>
 
 #define POINT_MAKE(X) CGPointMake X
 
 @implementation CoverView {
     CGMutablePathRef pathRef;
+    CADisplayLink *_timer;
 }
 
 - (id)initWithFrame:(CGRect)frame Scale:(CGFloat)scale Points:(NSString *)pointString {
@@ -114,21 +116,24 @@
 
 - (void)startflicker {
     if (!_timer) {
-        _timer = [NSTimer scheduledTimerWithTimeInterval:0.8 target:self selector:@selector(RepeatAnimation) userInfo:nil repeats:YES];
-        [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
+//        _timer = [NSTimer scheduledTimerWithTimeInterval:0.8 target:self selector:@selector(RepeatAnimation) userInfo:nil repeats:YES];
+//        [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
+        _timer = [CADisplayLink displayLinkWithTarget:self selector:@selector(RepeatAnimation)];
+        [_timer setFrameInterval:60.f];
+        [_timer addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
     }
 }
 
 - (void)RepeatAnimation {
     
-    [UIView animateWithDuration:0.4
+    [UIView animateWithDuration:0.5
                           delay:0
                         options:(UIViewAnimationOptionCurveLinear | UIViewAnimationOptionAllowUserInteraction)
                      animations:^{
                          self.alpha = 0.3;
                      }
                      completion:^(BOOL finished){
-                         [UIView animateWithDuration:0.4
+                         [UIView animateWithDuration:0.5
                                                delay:0
                                              options:(UIViewAnimationOptionCurveLinear | UIViewAnimationOptionAllowUserInteraction)
                                           animations:^{

@@ -199,7 +199,7 @@
 
     if (button.tag == 110) {
         _searchType = SearchDepartment;
-        popTableViewController.dataArray = [_fetchController queryDataWithPredicate:nil InEntity:@"Department"];
+        popTableViewController.dataArray = [_fetchController queryDataWithPredicate:nil InEntity:@"Department" SortByKey:@"dp_name"];
         popTableViewController.headerTitle = @"请选择部门";
     }
     
@@ -208,7 +208,7 @@
 //        [self.navigationController pushViewController:lwcVC animated:YES];
 //        return;
         _searchType = SearchWindow;
-        popTableViewController.dataArray = [_fetchController queryDataWithPredicate:nil InEntity:@"Window"];
+        popTableViewController.dataArray = [_fetchController queryDataWithPredicate:nil InEntity:@"Window" SortByKey:@"wd_name"];
         popTableViewController.headerTitle = @"请选择窗口";
     }
     
@@ -325,9 +325,9 @@
 //    CoverView *displayView = [[CoverView alloc] initWithFrame:frame Scale:scale Points:pointString];
 //    
 //    displayView.backgroundColor = [UIColor clearColor];
-//    __weak ReviewImageViewController *weakSelf = self;
+//    __weak CustomMapViewController *weakSelf = self;
 //    [displayView setHandleTouch:^{
-//        [weakSelf handleTouch];
+//        [weakSelf handleTouch:para];
 //    }];
 //    [_showView insertSubview:displayView atIndex:0];
 //    [displayView startflicker];
@@ -356,7 +356,6 @@
         _infoView.alpha = 0.7;
         [self.view insertSubview:_infoView aboveSubview:_scrollView];
     }
-    [_infoView setHidden:NO];
     [_infoView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     if (para) {
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, _infoView.frame.size.width, _infoView.frame.size.height)];
@@ -380,9 +379,8 @@
     UITouch *touch = [touches anyObject];
     CGPoint point = [touch locationInView:_infoView];
     if (point.x<0 || point.y <0) {
-        [_infoView setHidden:YES];
-//        [_infoView removeFromSuperview];
-//        _infoView = nil;
+        [_infoView removeFromSuperview];
+        _infoView = nil;
     }
 }
 
@@ -518,6 +516,15 @@
 }
 
 - (void)searchWithKeywords:(NSString *)keyWords {
+    _showArray = [NSMutableArray arrayWithArray:[_fetchController queryDataWithKeywords:keyWords
+                                                                              InEntitys:@{@"Department":@[@"dp_name",@"dp_info"]}
+                                                                              SortByKey:nil]];
+    if (_showArray.count) {
+        [self showAllView];
+    }else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有查到相关信息" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [alert show];
+    }
     
 }
 

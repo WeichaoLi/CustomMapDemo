@@ -114,7 +114,7 @@
 
 #pragma mark 查
 
-- (NSArray *)queryDataWithPredicate:(NSPredicate *)predicate InEntity:(NSString *)entityName {
+- (NSArray *)queryDataWithPredicate:(NSPredicate *)predicate InEntity:(NSString *)entityName SortByKey:(NSString *)key {
     if (entityName.length) {
         
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -132,14 +132,54 @@
         }
         
         NSSortDescriptor *sort = nil;
-        if([entityName isEqualToString:NSStringFromClass([Department class])]) {
-            sort = [NSSortDescriptor sortDescriptorWithKey:@"dp_name" ascending:YES];
+        if (key.length) {
+            sort = [NSSortDescriptor sortDescriptorWithKey:key ascending:YES];
         }
-        if ([entityName isEqualToString:NSStringFromClass([Window class])]) {
-            sort = [NSSortDescriptor sortDescriptorWithKey:@"wd_name" ascending:YES];
-        }
+        
+//        if([entityName isEqualToString:NSStringFromClass([Department class])]) {
+//            sort = [NSSortDescriptor sortDescriptorWithKey:@"dp_name" ascending:YES];
+//        }
+//        if ([entityName isEqualToString:NSStringFromClass([Window class])]) {
+//            sort = [NSSortDescriptor sortDescriptorWithKey:@"wd_name" ascending:YES];
+//        }
 
         return [fetchedObjects sortedArrayUsingDescriptors:@[sort]];
+    }
+    return nil;
+}
+
+- (NSArray *)queryDataWithKeywords:(NSString *)keywords InEntitys:(NSDictionary *)entitys SortByKey:(NSString *)key {
+    if (keywords.length) {
+        @autoreleasepool {
+            NSFetchRequest *request = [[NSFetchRequest alloc] init];
+            NSMutableArray *array = [NSMutableArray array];
+            for (NSString *entityName in entitys) {
+                NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:_managedObjectContext];
+                [request setEntity:entity];
+
+                NSString *predicateString = [[NSString alloc] init];
+                static BOOL sign = NO;
+                for (NSString *matchString in [entitys objectForKey:entityName]) {
+                    if (sign) {
+                        predicateString = [predicateString stringByAppendingString:@" OR "];
+                    }
+                    predicateString = [predicateString stringByAppendingFormat:@"%@ like[c] '*%@*'",matchString,keywords];
+                    
+                    sign = YES;
+                }
+                sign = NO;
+                NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
+                [request setPredicate:predicate];
+                
+                if (key) {
+                    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:key ascending:YES];
+                    [request setSortDescriptors:@[sort]];
+                }                
+                
+                [array addObjectsFromArray:[_managedObjectContext executeFetchRequest:request error:nil]];
+            }
+            return array;
+        }
     }
     return nil;
 }

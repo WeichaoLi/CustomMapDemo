@@ -10,9 +10,7 @@
 
 typedef void(^HandleTouch)(void);
 
-@interface CoverView : UIView {
-    NSTimer *_timer;
-}
+@interface CoverView : UIView
 
 @property (nonatomic, retain) id para;
 @property (nonatomic, copy) HandleTouch handleTouch;

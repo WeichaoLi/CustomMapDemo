@@ -17,6 +17,8 @@
 
 - (id)initWithEntity:(NSString *)entity;
 
-- (NSArray *)queryDataWithPredicate:(NSPredicate *)predicate InEntity:(NSString *)entity;
+//查
+- (NSArray *)queryDataWithPredicate:(NSPredicate *)predicate InEntity:(NSString *)entity SortByKey:(NSString *)key;
+- (NSArray *)queryDataWithKeywords:(NSString *)keywords InEntitys:(NSDictionary *)entitys SortByKey:(NSString *)key;
 
 @end
