@@ -12,7 +12,7 @@
     <entity name="Room" representedClassName="Room" syncable="YES">
         <attribute name="rm_frame" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="rm_info" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="rm_points" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="rm_name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="dept" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Department" inverseName="rooms" inverseEntity="Department" syncable="YES"/>
     </entity>
     <entity name="Window" representedClassName="Window" syncable="YES">

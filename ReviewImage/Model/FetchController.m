@@ -148,7 +148,7 @@
     return nil;
 }
 
-- (NSArray *)queryDataWithKeywords:(NSString *)keywords InEntitys:(NSDictionary *)entitys SortByKey:(NSString *)key {
+- (NSArray *)queryDataWithKeywords:(NSString *)keywords InEntitys:(NSDictionary *)entitys SortByKey:(NSDictionary *)keys {
     if (keywords.length) {
         @autoreleasepool {
             NSFetchRequest *request = [[NSFetchRequest alloc] init];
@@ -171,8 +171,8 @@
                 NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
                 [request setPredicate:predicate];
                 
-                if (key) {
-                    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:key ascending:YES];
+                if (keys.count) {
+                    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:[keys objectForKey:entityName] ascending:YES];
                     [request setSortDescriptors:@[sort]];
                 }                
                 

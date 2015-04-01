@@ -74,10 +74,9 @@
 }
 
 - (void)createButtonAtPoint:(CGPoint)point Scale:(CGFloat)scale WithPara:(id)para {
-    CustomButton *button = [CustomButton buttonWithType:UIButtonTypeCustom];
+    CustomButton *button = [CustomButton buttonWithType:UIButtonTypeSystem];
     [button setFrame:CGRectMake(point.x * scale - BUTTON_WIDTH/2, point.y * scale - BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT)];
-    [button setImage:[UIImage imageNamed:@"location"] forState:UIControlStateNormal];
-//    [button setBackgroundImage:[UIImage imageNamed:@"location.png"] forState:UIControlStateNormal];
+    [button setBackgroundImage:[UIImage imageNamed:@"location.png"] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(clickButton:) forControlEvents:UIControlEventTouchUpInside];
     [button setPara:para];
     

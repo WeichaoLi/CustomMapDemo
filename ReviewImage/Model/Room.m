@@ -13,7 +13,7 @@
 @implementation Room
 
 @dynamic rm_info;
-@dynamic rm_points;
+@dynamic rm_name;
 @dynamic rm_frame;
 @dynamic dept;
 

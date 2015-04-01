@@ -7,6 +7,9 @@
 //
 
 #import "PopTableViewController.h"
+#import "Department.h"
+#import "Window.h"
+#import "Room.h"
 
 @implementation PopTableViewController {
     UIView *sectionHeader;
@@ -42,6 +45,7 @@
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     [self.view removeFromSuperview];
     [self setIsShow:NO];
+    _headerTitle = nil;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -87,13 +91,16 @@
         Window *window = (Window *)obj;
         cell.textLabel.text = window.wd_name;
         
+    }else if ([obj isMemberOfClass:[Room class]]) {
+        Room *room = (Room *)obj;
+        cell.textLabel.text = room.rm_name;
     }
     
     return cell;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    if (!sectionHeader) {
+    if (!sectionHeader && _headerTitle) {
         sectionHeader = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 30)];
         sectionHeader.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         sectionHeader.backgroundColor = [UIColor whiteColor];
@@ -103,8 +110,17 @@
         tintLabel.text = _headerTitle;
         tintLabel.textAlignment = NSTextAlignmentCenter;
         [sectionHeader addSubview:tintLabel];
+    }else {
+        return nil;
     }
     return sectionHeader;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (_headerTitle) {
+        return 30;
+    }
+    return 0;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -116,7 +132,9 @@
 
 - (void)showInView:(UIView *)view {
     self.view.frame = view.bounds;
-    [view insertSubview:self.view atIndex:10];
+    if (!self.isShow) {
+        [view insertSubview:self.view atIndex:10];
+    }
     self.isShow = YES;
     sectionHeader = nil;
     [_tableView reloadData];
@@ -125,6 +143,7 @@
 - (void)dismiss {
     [self.view removeFromSuperview];
     self.isShow = NO;
+    _headerTitle = nil;
 }
 
 @end

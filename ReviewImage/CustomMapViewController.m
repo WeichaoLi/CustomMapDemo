@@ -11,6 +11,9 @@
 #import "LWCViewController.h"
 #import "PopTableViewController.h"
 #import "CoverView.h"
+#import "Department.h"
+#import "Room.h"
+#import "Window.h"
 
 @implementation CustomMapViewController {
     PopTableViewController *popTableViewController;
@@ -197,7 +200,7 @@
         [popTableViewController setIsShow:NO];
         
         __weak CustomMapViewController *weakSelf = self;
-        [popTableViewController setSelectCell:^(NSManagedObject *para){
+        [popTableViewController setSelectCell:^(id para){
             [weakSelf displayWithPara:para];
         }];
         [self addChildViewController:popTableViewController];
@@ -218,11 +221,7 @@
         popTableViewController.headerTitle = @"请选择窗口";
     }
     
-    if (!popTableViewController.isShow) {
-        [popTableViewController showInView:self.view];
-    }else {
-        [popTableViewController dismiss];
-    }
+    [popTableViewController showInView:self.view];
 }
 
 /**
@@ -230,31 +229,36 @@
  *
  *  @param para 部门或窗口对象
  */
-- (void)displayWithPara:(NSManagedObject *)para {
+- (void)displayWithPara:(id)para {
     //清空显示列表
     _showArray = [NSMutableArray array];
-    switch (_searchType) {
-            
-        case SearchDepartment:{
-            Department *dept = (Department *)para;
-            [_showArray addObject:dept];
-        }
-            break;
-            
-        case SearchWindow:{
-            Window *window = (Window *)para;
-            [_showArray addObject:window];
-            
-        }
-            break;
-        case SearchKeyword:{
-            
-        }
-            break;
-            
-        default:
-            break;
+    
+    if(para) {
+        [_showArray addObject:para];
     }
+//    switch (_searchType) {
+//            
+//        case SearchDepartment:{
+//            Department *dept = (Department *)para;
+//            [_showArray addObject:dept];
+//        }
+//            break;
+//            
+//        case SearchWindow:{
+//            Window *window = (Window *)para;
+//            [_showArray addObject:window];
+//            
+//        }
+//            break;
+//        case SearchKeyword:{
+//            Room *room = (Room *)para;
+//            [_showArray addObject:room];
+//        }
+//            break;
+//            
+//        default:
+//            break;
+//    }
     
     //在图上显示查询结果
     [self showAllView];
@@ -302,7 +306,7 @@
     CGPoint point = CGPointZero;
     [_showView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     if (_showArray.count) {
-        for (NSManagedObject *obj in _showArray) {
+        for (id obj in _showArray) {
             if ([obj isMemberOfClass:[Department class]]) {
                 Department *dept = (Department *)obj;
                 if (dept.dp_frame.length) {
@@ -324,9 +328,16 @@
                     [_showView createButtonAtPoint:CGPointFromString(window.wd_point) Scale:initalScale WithPara:window];
                 }
             }
+            if ([obj isMemberOfClass:[Room class]]) {
+                Room *room = (Room *)obj;
+                if (room.rm_frame.length) {
+                    point = CGRectFromString(room.rm_frame).origin;
+                    [self addDisplayViewWithFrame:CGRectFromString(room.rm_frame) Scale:initalScale Points:nil Parameter:room];
+                }
+            }
         }
     }
-//    [_scrollView zoomToRect:CGRectMake(point.x, point.y, 10, 10) animated:YES];
+    [_scrollView zoomToRect:CGRectMake(point.x*initalScale, point.y*initalScale, 10, 10) animated:YES];
 }
 
 - (void)addDisplayViewWithFrame:(CGRect)frame Scale:(CGFloat)scale Points:(NSString *)pointString Parameter:(id)para {
@@ -415,18 +426,18 @@
 }
 
 - (void)resetZoomScale {
-    CGFloat Rw = _scrollView.frame.size.width / self.imageView.frame.size.width;
-    CGFloat Rh = _scrollView.frame.size.height / self.imageView.frame.size.height;
+//    CGFloat Rw = _scrollView.frame.size.width / self.imageView.frame.size.width;
+//    CGFloat Rh = _scrollView.frame.size.height / self.imageView.frame.size.height;
+//    
+//    CGFloat scale = 1;
     
-    CGFloat scale = 1;
-    
-    if (_imageOrientation == ImageOrientationPortrait || _imageOrientation == ImageOrientationPortraitUpsideDown) {
-        Rw = MAX(Rw, _imageView.image.size.width / (scale * _scrollView.frame.size.width));
-        Rh = MAX(Rh, _imageView.image.size.height / (scale * _scrollView.frame.size.height));
-    }else {
-        Rw = MAX(Rw, _imageView.image.size.width / (scale * _scrollView.frame.size.height));
-        Rh = MAX(Rh, _imageView.image.size.height / (scale * _scrollView.frame.size.width));
-    }
+//    if (_imageOrientation == ImageOrientationPortrait || _imageOrientation == ImageOrientationPortraitUpsideDown) {
+//        Rw = MAX(Rw, _imageView.image.size.width / (scale * _scrollView.frame.size.width));
+//        Rh = MAX(Rh, _imageView.image.size.height / (scale * _scrollView.frame.size.height));
+//    }else {
+//        Rw = MAX(Rw, _imageView.image.size.width / (scale * _scrollView.frame.size.height));
+//        Rh = MAX(Rh, _imageView.image.size.height / (scale * _scrollView.frame.size.width));
+//    }
 
     _scrollView.contentSize = _imageView.frame.size;
     _scrollView.minimumZoomScale = 1;
@@ -506,6 +517,19 @@
 #pragma mark - UITextFieldDelegate
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    if (!popTableViewController) {
+        popTableViewController = [[PopTableViewController alloc] init];
+        [popTableViewController setIsShow:NO];
+        
+        __weak CustomMapViewController *weakSelf = self;
+        [popTableViewController setSelectCell:^(id para){
+            [weakSelf displayWithPara:para];
+        }];
+        [self addChildViewController:popTableViewController];
+    }
+    [popTableViewController dismiss];
+    
+    
     _searchType = SearchKeyword;
     [popTableViewController dismiss];
     return YES;
@@ -520,16 +544,26 @@
 }
 
 - (void)searchWithKeywords:(NSString *)keyWords {
+    
+    
     _showArray = [NSMutableArray arrayWithArray:[_fetchController queryDataWithKeywords:keyWords
-                                                                              InEntitys:@{@"Department":@[@"dp_name",@"dp_info"]}
+                                                                              InEntitys:@{@"Department": @[@"dp_name", @"dp_info"],
+                                                                                          @"Window": @[@"wd_name", @"wd_info"],
+                                                                                          @"Room": @[@"rm_name", @"rm_info"]
+                                                                                          }
                                                                               SortByKey:nil]];
+    
+    
+    
+    popTableViewController.dataArray = _showArray;
+//    popTableViewController.headerTitle = @"搜索结果";
+    
     if (_showArray.count) {
-        [self showAllView];
+        [popTableViewController showInView:self.view];
     }else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有查到相关信息" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有搜到该关键字" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
         [alert show];
     }
-    
 }
 
 @end

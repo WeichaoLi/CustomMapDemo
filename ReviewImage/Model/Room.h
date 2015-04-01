@@ -14,7 +14,7 @@
 @interface Room : NSManagedObject
 
 @property (nonatomic, retain) NSString * rm_info;
-@property (nonatomic, retain) NSString * rm_points;
+@property (nonatomic, retain) NSString * rm_name;
 @property (nonatomic, retain) NSString * rm_frame;
 @property (nonatomic, retain) Department *dept;
 

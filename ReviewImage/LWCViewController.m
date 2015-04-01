@@ -44,7 +44,7 @@
         department1.dp_frame = [NSString stringWithFormat:@"{{45, 53},{268, 145}}"];
         department1.dp_points = @"{0,0}-{0,147}-{60,147}-{60,23}-{270,23}-{270,0}";
         department1.dp_name = @"房地产交易中心";
-        department1.dp_info = @"房地产";
+        department1.dp_info = @"房地产  106室 107室 108室 109室 110室";
         
         NSArray *array1 = @[@"34",@"35",@"36",@"37",@"38",@"39"];
         NSArray *arr = @[@"{315, 100}",
@@ -60,8 +60,22 @@
         }
         
         NSArray *roomName = @[@"106室",@"107室",@"108室",@"109室",@"110室",@"111室",@"112室"];
-        NSArray *roomFrame = @[@"{{45, 53},{268, 145}}",
+        NSArray *roomFrame = @[@"{{45, 149},{60, 48}}",
+                               @"{{45, 105},{60, 45}}",
+                               @"{{45, 52},{60, 53}}",
+                               @"{{103, 52},{54, 23}}",
+                               @"{{158, 52},{54, 23}}",
+                               @"{{213, 52},{54, 23}}",
+                               @"{{267, 52},{45, 23}}"
                                ];
+        for (int i = 0; i< roomName.count; i++) {
+            Room *room = [NSEntityDescription insertNewObjectForEntityForName:@"Room" inManagedObjectContext:_fetchController.managedObjectContext];
+            room.rm_frame = roomFrame[i];
+            room.rm_name = roomName[i];
+            room.dept = department1;
+        }
+        
+        
         
         Department *department2 = [NSEntityDescription insertNewObjectForEntityForName:@"Department" inManagedObjectContext:_fetchController.managedObjectContext];
         

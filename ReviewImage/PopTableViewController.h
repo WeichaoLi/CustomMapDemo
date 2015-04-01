@@ -7,10 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Department.h"
-#import "Window.h"
 
-typedef void(^DidSelectCell)(NSManagedObject *para);
+typedef void(^DidSelectCell)(id);
 
 @interface PopTableViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
