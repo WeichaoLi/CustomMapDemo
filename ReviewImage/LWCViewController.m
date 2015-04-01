@@ -9,6 +9,7 @@
 #import "LWCViewController.h"
 #import "Department.h"
 #import "Window.h"
+#import "Room.h"
 
 @interface LWCViewController ()
 
@@ -46,19 +47,21 @@
         department1.dp_info = @"房地产";
         
         NSArray *array1 = @[@"34",@"35",@"36",@"37",@"38",@"39"];
-        NSArray *arr = @[@"{{309, 95},{11, 10}}",
-                         @"{{295, 95},{11, 10}}",
-                         @"{{281, 95},{11, 10}}",
-                         @"{{268, 95},{11, 10}}",
+        NSArray *arr = @[@"{315, 100}",
+                         @"{300, 100}",
+                         @"{286, 100}",
+                         @"{273, 100}",
                          @"",@""];
         for (int i=0 ; i < arr.count; i++) {
             Window *window = [NSEntityDescription insertNewObjectForEntityForName:@"Window" inManagedObjectContext:_fetchController.managedObjectContext];
             window.wd_name = array1[i];
-            window.wd_frame = arr[i];
+            window.wd_point = arr[i];
             window.dept = department1;
         }
         
-        
+        NSArray *roomName = @[@"106室",@"107室",@"108室",@"109室",@"110室",@"111室",@"112室"];
+        NSArray *roomFrame = @[@"{{45, 53},{268, 145}}",
+                               ];
         
         Department *department2 = [NSEntityDescription insertNewObjectForEntityForName:@"Department" inManagedObjectContext:_fetchController.managedObjectContext];
         

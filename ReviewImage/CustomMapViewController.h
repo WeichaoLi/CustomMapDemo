@@ -47,8 +47,7 @@ typedef NS_ENUM(NSInteger, ImageOrientation) {
 @property (nonatomic, assign) ImageOrientation      imageOrientation;
 @property (nonatomic, assign) SearchType            searchType;
 @property (nonatomic, retain) UIView                *containerView;
-@property (nonatomic, retain) BaseView                *showView;
-@property (nonatomic, retain) BaseView              *buttonView;
+@property (nonatomic, retain) BaseView              *showView;
 @property (nonatomic, retain) NSMutableArray        *showArray;
 @property (nonatomic ,retain) UIButton              *buttonWindow;
 @property (nonatomic ,retain) UIButton              *buttonDepartment;

@@ -104,7 +104,6 @@
     _imageView = nil;
     _showView = nil;
     promptLable = nil;
-    _buttonView = nil;
     _buttonWindow = nil;
     _buttonDepartment = nil;
     _containerView = nil;
@@ -291,72 +290,46 @@
     if (_showView == nil) {
         _showView = [[BaseView alloc] init];
         _showView.backgroundColor = [UIColor clearColor];
+        _showView.delegate = self;
         [_containerView insertSubview:_showView aboveSubview:_imageView];
-        
-        [_showView createButtonAtPoint:CGPointMake(315, 100) Scale:initalScale WithPara:nil];
     }
     _showView.frame = _containerView.bounds;
-    
-//    if (_buttonView == nil) {
-//        _buttonView = [[BaseView alloc] init];
-//        _buttonView.backgroundColor = [UIColor clearColor];
-//        _buttonView.initalscale = 1;
-//        _buttonView.delegate = self;
-//        [_scrollView insertSubview:_buttonView aboveSubview:_containerView];
-//        
-//        [_buttonView createButtonAtPoint:CGPointMake(315, 100) Scale:initalScale WithPara:nil];
-//    }
-//    _buttonView.frame = _containerView.frame;
-    
-//    NSString *pointString = @"{0,0}-{0,53}-{60,53}-{60,23}-{170,23}-{170,0}";
-//    [self addShowViewWithFrame:CGRectMake(43, 52, 170, 53) Scale:initalScale Points:pointString];
 }
 
 - (void)showAllView {
     [_infoView removeFromSuperview];
+    [_scrollView setZoomScale:_scrollView.minimumZoomScale];
+    CGPoint point = CGPointZero;
     [_showView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     if (_showArray.count) {
         for (NSManagedObject *obj in _showArray) {
             if ([obj isMemberOfClass:[Department class]]) {
                 Department *dept = (Department *)obj;
                 if (dept.dp_frame.length) {
+                    point = CGRectFromString(dept.dp_frame).origin;
                     [self addDisplayViewWithFrame:CGRectFromString(dept.dp_frame) Scale:initalScale Points:dept.dp_points Parameter:dept];
                 }
                 NSSet *windows = dept.windows;
-                for (Window *win in windows) {
-                    if (win.wd_frame.length) {
-//                        [self addDisplayViewWithFrame:CGRectFromString(win.wd_frame) Scale:initalScale Points:win.wd_points Parameter:win];
-                        [_showView createButtonAtPoint:CGPointMake(315, 100) Scale:initalScale WithPara:win];
-                        
-                        [_scrollView zoomToRect:CGRectMake(315, 100, 0, 0) animated:YES];
+                for (Window *window in windows) {
+                    if (window.wd_point.length) {
+                        point = CGPointFromString(window.wd_point);
+                        [_showView createButtonAtPoint:CGPointFromString(window.wd_point) Scale:initalScale WithPara:window];
                     }
                 }
             }
             if ([obj isMemberOfClass:[Window class]]) {
                 Window *window = (Window *)obj;
-                if (window.wd_frame.length) {
-//                    [self addDisplayViewWithFrame:CGRectFromString(window.wd_frame) Scale:initalScale Points:window.wd_points Parameter:window];
-                    [_showView createButtonAtPoint:CGPointMake(315, 100) Scale:initalScale WithPara:window];
-                    
-                    [_scrollView zoomToRect:CGRectMake(315, 100, 0, 0) animated:YES];
+                if (window.wd_point.length) {
+                    point = CGPointFromString(window.wd_point);
+                    [_showView createButtonAtPoint:CGPointFromString(window.wd_point) Scale:initalScale WithPara:window];
                 }
             }
         }
     }
+//    [_scrollView zoomToRect:CGRectMake(point.x, point.y, 10, 10) animated:YES];
 }
 
 - (void)addDisplayViewWithFrame:(CGRect)frame Scale:(CGFloat)scale Points:(NSString *)pointString Parameter:(id)para {
-    
-//    CoverView *displayView = [[CoverView alloc] initWithFrame:frame Scale:scale Points:pointString];
-//    
-//    displayView.backgroundColor = [UIColor clearColor];
-//    __weak CustomMapViewController *weakSelf = self;
-//    [displayView setHandleTouch:^{
-//        [weakSelf handleTouch:para];
-//    }];
-//    [_showView insertSubview:displayView atIndex:0];
-//    [displayView startflicker];
-    
     CoverView *displayView = [CoverView createCoverviewWithFrame:frame
                                                            Scale:scale
                                                           Points:pointString
@@ -366,16 +339,15 @@
     displayView.backgroundColor = [UIColor clearColor];
     [displayView startflicker];
     [_showView insertSubview:displayView atIndex:10];
-    
-    [_scrollView zoomToRect:CGRectMake(displayView.center.x, displayView.center.y, 0, 0) animated:YES];
 }
 
 #pragma mark - 点击屏幕上的视图触发的事件
 
-#pragma mark 点击 buttonview
+#pragma mark 点击图标按钮
 
-- (void)touchViewWithBegin:(NSSet *)touches withEvents:(UIEvent *)event{
-    [_showView touchesBegan:touches withEvent:event];
+- (void)touchButton:(id)para {
+    NSLog(@"%@",para);
+    [self handleTouch:para];
 }
 
 - (void)handleTouch:(id)para {
@@ -398,7 +370,7 @@
         }
         if ([para isMemberOfClass:[Window class]]) {
             Window *window = (Window *)para;
-            label.text = window.wd_frame;
+            label.text = window.wd_point;
             NSLog(@"%@",label.text);
         }
         [_infoView addSubview:label];
@@ -525,9 +497,9 @@
 #pragma mark - Rotation
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    CGFloat scale  = currentScale;
+//    CGFloat scale  = currentScale;
     [self imageDidChange];
-    _scrollView.zoomScale = scale;
+//    _scrollView.zoomScale = scale;
     [self showAllView];
 }
 
@@ -567,11 +539,5 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [[self nextResponder] touchesBegan:touches withEvent:event];
 }
-
-//- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
-//    id hitView = [super hitTest:point withEvent:event];
-//    NSLog(@"scrollview:=== %@",hitView);
-//    return hitView;
-//}
 
 @end

@@ -2,7 +2,7 @@
 //  Window.m
 //  CustomMapDemo
 //
-//  Created by 李伟超 on 15/3/26.
+//  Created by 李伟超 on 15/4/1.
 //  Copyright (c) 2015年 LWC. All rights reserved.
 //
 
@@ -12,10 +12,9 @@
 
 @implementation Window
 
-@dynamic wd_name;
-@dynamic wd_frame;
-@dynamic wd_points;
 @dynamic wd_info;
+@dynamic wd_name;
+@dynamic wd_point;
 @dynamic dept;
 
 @end

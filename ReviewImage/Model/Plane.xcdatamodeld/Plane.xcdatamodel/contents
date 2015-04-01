@@ -16,15 +16,14 @@
         <relationship name="dept" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Department" inverseName="rooms" inverseEntity="Department" syncable="YES"/>
     </entity>
     <entity name="Window" representedClassName="Window" syncable="YES">
-        <attribute name="wd_frame" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="wd_info" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="wd_name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="wd_points" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="wd_point" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="dept" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Department" inverseName="windows" inverseEntity="Department" syncable="YES"/>
     </entity>
     <elements>
         <element name="Department" positionX="-369" positionY="18" width="128" height="148"/>
-        <element name="Window" positionX="-27" positionY="81" width="128" height="118"/>
         <element name="Room" positionX="-198" positionY="90" width="128" height="103"/>
+        <element name="Window" positionX="-27" positionY="81" width="128" height="105"/>
     </elements>
 </model>

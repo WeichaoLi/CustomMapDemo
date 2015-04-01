@@ -15,7 +15,7 @@ typedef void(^Touchview)(void);
 
 @required
 
-- (void)touchViewWithBegin:(NSSet *)touches withEvents:(UIEvent *)event;
+//- (void)touchViewWithBegin:(NSSet *)touches withEvents:(UIEvent *)event;
 
 @optional
 

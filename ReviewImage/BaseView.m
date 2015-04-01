@@ -28,11 +28,7 @@
 
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    if (_delegate && [_delegate respondsToSelector:@selector(touchViewWithBegin:withEvents:)]) {
-        [_delegate touchViewWithBegin:touches withEvents:event];
-    }else {
-        [self.nextResponder touchesBegan:touches withEvent:event];
-    }
+    [self.nextResponder touchesBegan:touches withEvent:event];
 }
 
 //- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
@@ -80,15 +76,15 @@
 - (void)createButtonAtPoint:(CGPoint)point Scale:(CGFloat)scale WithPara:(id)para {
     CustomButton *button = [CustomButton buttonWithType:UIButtonTypeCustom];
     [button setFrame:CGRectMake(point.x * scale - BUTTON_WIDTH/2, point.y * scale - BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT)];
-    [button setBackgroundImage:[UIImage imageNamed:@"location.png"] forState:UIControlStateNormal];
+    [button setImage:[UIImage imageNamed:@"location"] forState:UIControlStateNormal];
+//    [button setBackgroundImage:[UIImage imageNamed:@"location.png"] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(clickButton:) forControlEvents:UIControlEventTouchUpInside];
     [button setPara:para];
     
-    [self addSubview:button];
+    [self insertSubview:button atIndex:20];
 }
 
 - (void)clickButton:(id)sender {
-    NSLog(@"===========");
     CustomButton *button = (CustomButton *)sender;
     if (_delegate && [_delegate respondsToSelector:@selector(touchButton:)]) {
         [_delegate touchButton:button.para];
