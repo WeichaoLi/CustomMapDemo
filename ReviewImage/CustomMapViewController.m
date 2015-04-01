@@ -8,9 +8,9 @@
 
 #import "CustomMapViewController.h"
 #import "SVProgressHUD.h"
-#import "KxMenu.h"
 #import "LWCViewController.h"
 #import "PopTableViewController.h"
+#import "CoverView.h"
 
 @implementation CustomMapViewController {
     PopTableViewController *popTableViewController;
@@ -99,10 +99,17 @@
 
 - (void)dealloc {
     _scrollView = nil;
+    _entityName = nil;
     _ImageURL = nil;
     _imageView = nil;
     _showView = nil;
     promptLable = nil;
+    _buttonView = nil;
+    _buttonWindow = nil;
+    _buttonDepartment = nil;
+    _containerView = nil;
+    _infoView = nil;
+    _showArray = nil;
 }
 
 - (void)loadView {
@@ -219,10 +226,6 @@
     }
 }
 
-- (void)typeItemClick:(id)sender {
-    
-}
-
 /**
  *  显示窗口、部门查询结果
  *
@@ -242,6 +245,10 @@
         case SearchWindow:{
             Window *window = (Window *)para;
             [_showArray addObject:window];
+            
+        }
+            break;
+        case SearchKeyword:{
             
         }
             break;
@@ -282,12 +289,24 @@
     _imageView.frame = _containerView.bounds;
     
     if (_showView == nil) {
-        _showView = [[UIView alloc] init];
+        _showView = [[BaseView alloc] init];
         _showView.backgroundColor = [UIColor clearColor];
         [_containerView insertSubview:_showView aboveSubview:_imageView];
+        
+        [_showView createButtonAtPoint:CGPointMake(315, 100) Scale:initalScale WithPara:nil];
     }
     _showView.frame = _containerView.bounds;
-    [_showView layoutSubviews];
+    
+//    if (_buttonView == nil) {
+//        _buttonView = [[BaseView alloc] init];
+//        _buttonView.backgroundColor = [UIColor clearColor];
+//        _buttonView.initalscale = 1;
+//        _buttonView.delegate = self;
+//        [_scrollView insertSubview:_buttonView aboveSubview:_containerView];
+//        
+//        [_buttonView createButtonAtPoint:CGPointMake(315, 100) Scale:initalScale WithPara:nil];
+//    }
+//    _buttonView.frame = _containerView.frame;
     
 //    NSString *pointString = @"{0,0}-{0,53}-{60,53}-{60,23}-{170,23}-{170,0}";
 //    [self addShowViewWithFrame:CGRectMake(43, 52, 170, 53) Scale:initalScale Points:pointString];
@@ -306,14 +325,20 @@
                 NSSet *windows = dept.windows;
                 for (Window *win in windows) {
                     if (win.wd_frame.length) {
-                        [self addDisplayViewWithFrame:CGRectFromString(win.wd_frame) Scale:initalScale Points:win.wd_points Parameter:win];
+//                        [self addDisplayViewWithFrame:CGRectFromString(win.wd_frame) Scale:initalScale Points:win.wd_points Parameter:win];
+                        [_showView createButtonAtPoint:CGPointMake(315, 100) Scale:initalScale WithPara:win];
+                        
+                        [_scrollView zoomToRect:CGRectMake(315, 100, 0, 0) animated:YES];
                     }
                 }
             }
             if ([obj isMemberOfClass:[Window class]]) {
                 Window *window = (Window *)obj;
                 if (window.wd_frame.length) {
-                    [self addDisplayViewWithFrame:CGRectFromString(window.wd_frame) Scale:initalScale Points:window.wd_points Parameter:window];
+//                    [self addDisplayViewWithFrame:CGRectFromString(window.wd_frame) Scale:initalScale Points:window.wd_points Parameter:window];
+                    [_showView createButtonAtPoint:CGPointMake(315, 100) Scale:initalScale WithPara:window];
+                    
+                    [_scrollView zoomToRect:CGRectMake(315, 100, 0, 0) animated:YES];
                 }
             }
         }
@@ -346,6 +371,12 @@
 }
 
 #pragma mark - 点击屏幕上的视图触发的事件
+
+#pragma mark 点击 buttonview
+
+- (void)touchViewWithBegin:(NSSet *)touches withEvents:(UIEvent *)event{
+    [_showView touchesBegan:touches withEvent:event];
+}
 
 - (void)handleTouch:(id)para {
     if (!_infoView) {
@@ -392,8 +423,6 @@
 
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView {
     
-//    NSLog(@"%@",NSStringFromUIEdgeInsets(_scrollView.contentInset));
-    
     CGFloat Ws = _scrollView.frame.size.width - _scrollView.contentInset.left - _scrollView.contentInset.right;
     CGFloat Hs = _scrollView.frame.size.height - _scrollView.contentInset.top - _scrollView.contentInset.bottom;
     CGFloat W = _containerView.frame.size.width;
@@ -408,6 +437,9 @@
 //        [self showPrompt:@"已放大到最大比例"];
 //    }
     currentScale = scrollView.zoomScale;
+    
+    _showView.scale = currentScale;
+    [_showView layoutSubviews];
 }
 
 - (void)resetZoomScale {
@@ -535,5 +567,11 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [[self nextResponder] touchesBegan:touches withEvent:event];
 }
+
+//- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+//    id hitView = [super hitTest:point withEvent:event];
+//    NSLog(@"scrollview:=== %@",hitView);
+//    return hitView;
+//}
 
 @end

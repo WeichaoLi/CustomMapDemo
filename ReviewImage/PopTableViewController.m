@@ -49,6 +49,13 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc {
+    _tableView = nil;
+    _dataArray = nil;
+    _headerTitle = nil;
+    _selectCell = nil;
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

@@ -160,8 +160,7 @@
         }
     }else {
         [self.nextResponder touchesBegan:touches withEvent:event];
-    }
-    
+    }    
 }
 
 - (id)initWithFrame:(CGRect)frame Scale:(CGFloat)scale Points:(NSString *)pointString Target:(id)target Action:(SEL)action Parameter:(id)para {
@@ -186,6 +185,12 @@
     [_timer removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
     _timer = nil;
     [super removeFromSuperview];
+}
+
+- (void)dealloc {
+    [_timer removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+    _timer = nil;
+    _para = nil;    
 }
 
 @end

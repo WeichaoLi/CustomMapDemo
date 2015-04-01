@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "FetchController.h"
-#import "CoverView.h"
+#import "BaseView.h"
+
+@class CoverView;
 
 typedef NS_ENUM(NSUInteger, SearchType){
     SearchKeyword = 0,
@@ -27,7 +29,7 @@ typedef NS_ENUM(NSInteger, ImageOrientation) {
 
 @end
 
-@interface CustomMapViewController : UIViewController<UIGestureRecognizerDelegate, UIScrollViewDelegate, UITextFieldDelegate> {
+@interface CustomMapViewController : UIViewController<UIGestureRecognizerDelegate, UIScrollViewDelegate, UITextFieldDelegate, TouchBaseViewDelegate> {
     CGFloat initalScale;
     CGFloat currentScale;
     UILabel *promptLable;  //提示
@@ -37,14 +39,16 @@ typedef NS_ENUM(NSInteger, ImageOrientation) {
     CGRect showFrame;
 }
 
+@property (nonatomic, copy)     NSString            *entityName;
+
 @property (nonatomic, readonly) UIScrollView        *scrollView;
-@property (nonatomic, retain) NSString              *entityName;
-@property (nonatomic, strong) NSString              *ImageURL;
-@property (nonatomic, strong) UIImageView           *imageView;
+@property (nonatomic, retain) NSString              *ImageURL;
+@property (nonatomic, retain) UIImageView           *imageView;
 @property (nonatomic, assign) ImageOrientation      imageOrientation;
 @property (nonatomic, assign) SearchType            searchType;
 @property (nonatomic, retain) UIView                *containerView;
-@property (nonatomic, retain) UIView                *showView;
+@property (nonatomic, retain) BaseView                *showView;
+@property (nonatomic, retain) BaseView              *buttonView;
 @property (nonatomic, retain) NSMutableArray        *showArray;
 @property (nonatomic ,retain) UIButton              *buttonWindow;
 @property (nonatomic ,retain) UIButton              *buttonDepartment;
