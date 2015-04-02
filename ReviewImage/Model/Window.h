@@ -13,9 +13,9 @@
 
 @interface Window : NSManagedObject
 
-@property (nonatomic, retain) NSString * wd_info;
-@property (nonatomic, retain) NSString * wd_name;
-@property (nonatomic, retain) NSString * wd_point;
-@property (nonatomic, retain) Department *dept;
+@property (nonatomic, retain) NSString * wd_info;   //窗口信息
+@property (nonatomic, retain) NSString * wd_name;   //窗口名称
+@property (nonatomic, retain) NSString * wd_point;  //窗口位置，如：{x,y}
+@property (nonatomic, retain) Department *dept;     //窗口 n -----> 1  部门
 
 @end

@@ -13,13 +13,13 @@
 
 @interface Department : NSManagedObject
 
-@property (nonatomic, retain) NSString * dp_name;
-@property (nonatomic, retain) NSString * dp_frame;
-@property (nonatomic, retain) NSNumber * dp_id;
-@property (nonatomic, retain) NSString * dp_info;
-@property (nonatomic, retain) NSString * dp_points;
-@property (nonatomic, retain) NSSet *windows;
-@property (nonatomic, retain) NSSet *rooms;
+@property (nonatomic, retain) NSString * dp_name;   //部门名称
+@property (nonatomic, retain) NSString * dp_frame;  //部门坐标1，必须有，格式如：{{45, 53},{268, 145}}， {45, 53}表示区域的原点，{268, 145}表示区域的大小
+@property (nonatomic, retain) NSNumber * dp_id;     //从服务器取数据时的标志
+@property (nonatomic, retain) NSString * dp_info;   //部门信息
+@property (nonatomic, retain) NSString * dp_points; //部门坐标2，可以有，格式如：{0,0}-{0,147}-{60,147}-{60,23}-{270,23}-{270,0}，以“ - ”分割点{x,y},至少要有3个点
+@property (nonatomic, retain) NSSet *windows;       //部门  1————>n  窗口
+@property (nonatomic, retain) NSSet *rooms;         //部门  1————>n  房间
 @end
 
 @interface Department (CoreDataGeneratedAccessors)

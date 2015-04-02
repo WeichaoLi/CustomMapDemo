@@ -11,6 +11,7 @@
 #import "LWCViewController.h"
 #import "PopTableViewController.h"
 #import "CoverView.h"
+#import "DetailView.h"
 #import "Department.h"
 #import "Room.h"
 #import "Window.h"
@@ -52,6 +53,9 @@
     
     _scrollView.bounds = self.view.bounds;
     [self loadImage];
+    
+//    LWCViewController *lwcVC = [[LWCViewController alloc] init];
+//    [self.navigationController pushViewController:lwcVC animated:YES];
 }
 
 - (void)createUI {
@@ -60,7 +64,7 @@
         [_buttonDepartment setFrame:CGRectMake(0, 0, 70, 44)];
         _buttonDepartment.tag = 110;
 //        [_buttonDepartment sizeToFit];
-        [_buttonDepartment setTitle:@"部门" forState:UIControlStateNormal];
+        [_buttonDepartment setTitle:NSLocalizedString(@"部门", nil) forState:UIControlStateNormal];
         [_buttonDepartment setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
         [_buttonDepartment addTarget:self action:@selector(ClickButton:Event:) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -70,7 +74,7 @@
         [_buttonWindow setFrame:CGRectMake(0, 0, 70, 44)];
         _buttonWindow.tag = 111;
 //        [_buttonWindow sizeToFit];
-        [_buttonWindow setTitle:@"窗口" forState:UIControlStateNormal];
+        [_buttonWindow setTitle:NSLocalizedString(@"窗口", nil) forState:UIControlStateNormal];
         [_buttonWindow setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
         [_buttonWindow addTarget:self action:@selector(ClickButton:Event:) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -82,7 +86,7 @@
     if (!_txtSearchKey) {
         _txtSearchKey = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 120, 30)];
         _txtSearchKey.delegate = self;
-        _txtSearchKey.placeholder = @"输入查询关键词";
+        _txtSearchKey.placeholder = NSLocalizedString(@"输入查询关键词", nil);
         [_txtSearchKey sizeToFit];
         _txtSearchKey.font = [UIFont systemFontOfSize:14];
         _txtSearchKey.returnKeyType = UIReturnKeySearch;
@@ -209,16 +213,13 @@
     if (button.tag == 110) {
         _searchType = SearchDepartment;
         popTableViewController.dataArray = [_fetchController queryDataWithPredicate:nil InEntity:@"Department" SortByKey:@"dp_name"];
-        popTableViewController.headerTitle = @"请选择部门";
+        popTableViewController.headerTitle = NSLocalizedString( @"请选择部门", nil);
     }
     
     if (button.tag == 111) {
-//        LWCViewController *lwcVC = [[LWCViewController alloc] init];
-//        [self.navigationController pushViewController:lwcVC animated:YES];
-//        return;
         _searchType = SearchWindow;
         popTableViewController.dataArray = [_fetchController queryDataWithPredicate:nil InEntity:@"Window" SortByKey:@"wd_name"];
-        popTableViewController.headerTitle = @"请选择窗口";
+        popTableViewController.headerTitle = NSLocalizedString(@"请选择窗口", nil);
     }
     
     [popTableViewController showInView:self.view];
@@ -301,7 +302,7 @@
 }
 
 - (void)showAllView {
-    [_infoView removeFromSuperview];
+//    [_infoView setHidden:YES];
     [_scrollView setZoomScale:_scrollView.minimumZoomScale];
     CGPoint point = CGPointZero;
     [_showView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
@@ -310,7 +311,7 @@
             if ([obj isMemberOfClass:[Department class]]) {
                 Department *dept = (Department *)obj;
                 if (dept.dp_frame.length) {
-                    point = CGRectFromString(dept.dp_frame).origin;
+                    point = CGPointMake(CGRectGetMaxX(CGRectFromString(dept.dp_frame)), CGRectGetMidY(CGRectFromString(dept.dp_frame)));
                     [self addDisplayViewWithFrame:CGRectFromString(dept.dp_frame) Scale:initalScale Points:dept.dp_points Parameter:dept];
                 }
                 NSSet *windows = dept.windows;
@@ -331,7 +332,7 @@
             if ([obj isMemberOfClass:[Room class]]) {
                 Room *room = (Room *)obj;
                 if (room.rm_frame.length) {
-                    point = CGRectFromString(room.rm_frame).origin;
+                    point = CGPointMake(CGRectGetMaxX(CGRectFromString(room.rm_frame)), CGRectGetMidY(CGRectFromString(room.rm_frame)));
                     [self addDisplayViewWithFrame:CGRectFromString(room.rm_frame) Scale:initalScale Points:nil Parameter:room];
                 }
             }
@@ -364,27 +365,25 @@
 - (void)handleTouch:(id)para {
     if (!_infoView) {
         CGRect frame = self.view.frame;
-        _infoView = [[UIView alloc] initWithFrame:CGRectMake(0, frame.size.height - 150, frame.size.width, 150)];
+        _infoView = [[DetailView alloc] initWithFrame:CGRectMake(0, frame.size.height - 150, frame.size.width, 150)];
         _infoView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin;
         _infoView.backgroundColor = [UIColor blackColor];
         _infoView.alpha = 0.7;
         [self.view insertSubview:_infoView aboveSubview:_scrollView];
-    }
-    [_infoView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+        [_infoView layoutIfNeeded];
+    }    
+    [_infoView setHidden:NO];
     if (para) {
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, _infoView.frame.size.width, _infoView.frame.size.height)];
-        label.textColor = [UIColor whiteColor];
-        label.numberOfLines = 0;
         if ([para isMemberOfClass:[Department class]]) {
             Department *dept = (Department *)para;
-            label.text = dept.dp_frame;
+            _infoView.lable_1.text = dept.dp_name;
+            _infoView.lable_2.text = dept.dp_info;
         }
         if ([para isMemberOfClass:[Window class]]) {
             Window *window = (Window *)para;
-            label.text = window.wd_point;
-            NSLog(@"%@",label.text);
+            _infoView.lable_1.text = window.wd_name;
+            _infoView.lable_2.text = window.wd_info;
         }
-        [_infoView addSubview:label];
     }
 }
 
@@ -393,9 +392,13 @@
     UITouch *touch = [touches anyObject];
     CGPoint point = [touch locationInView:_infoView];
     if (point.x<0 || point.y <0) {
-        [_infoView removeFromSuperview];
-        _infoView = nil;
+        [_infoView setHidden:YES];
     }
+//    if (_infoView.hidden) {
+//        [_infoView setHidden:NO];
+//    }else {
+//        [_infoView setHidden:YES];
+//    }
 }
 
 #pragma mark- Scrollview delegate
@@ -442,7 +445,7 @@
     _scrollView.contentSize = _imageView.frame.size;
     _scrollView.minimumZoomScale = 1;
 //    _scrollView.maximumZoomScale = MAX(MAX(Rw, Rh), 1);
-    _scrollView.maximumZoomScale = 4;
+    _scrollView.maximumZoomScale = 3;
 }
 
 #pragma mark - Tap gesture
@@ -511,7 +514,9 @@
 //    CGFloat scale  = currentScale;
     [self imageDidChange];
 //    _scrollView.zoomScale = scale;
-    [self showAllView];
+    if (_showArray.count) {
+        [self showAllView];
+    }    
 }
 
 #pragma mark - UITextFieldDelegate
@@ -549,19 +554,21 @@
     _showArray = [NSMutableArray arrayWithArray:[_fetchController queryDataWithKeywords:keyWords
                                                                               InEntitys:@{@"Department": @[@"dp_name", @"dp_info"],
                                                                                           @"Window": @[@"wd_name", @"wd_info"],
-                                                                                          @"Room": @[@"rm_name", @"rm_info"]
-                                                                                          }
+                                                                                          @"Room": @[@"rm_name", @"rm_info"]}
                                                                               SortByKey:nil]];
     
     
     
     popTableViewController.dataArray = _showArray;
-//    popTableViewController.headerTitle = @"搜索结果";
+//    popTableViewController.headerTitle = NSLocalizedString(@"搜索结果", nil);
     
     if (_showArray.count) {
         [popTableViewController showInView:self.view];
     }else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"没有搜到该关键字" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                        message:NSLocalizedString(@"没有搜到该关键字", nil)
+                                                       delegate:self cancelButtonTitle:NSLocalizedString(@"确定", nil)
+                                              otherButtonTitles: nil];
         [alert show];
     }
 }

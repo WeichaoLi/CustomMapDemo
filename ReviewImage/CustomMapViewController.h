@@ -10,6 +10,7 @@
 #import "FetchController.h"
 #import "BaseView.h"
 
+@class DetailView;
 @class CoverView;
 
 typedef NS_ENUM(NSUInteger, SearchType){
@@ -52,7 +53,7 @@ typedef NS_ENUM(NSInteger, ImageOrientation) {
 @property (nonatomic ,retain) UIButton              *buttonWindow;
 @property (nonatomic ,retain) UIButton              *buttonDepartment;
 @property (nonatomic ,retain) UITextField           *txtSearchKey;
-@property (nonatomic, retain) UIView                *infoView;
+@property (nonatomic, retain) DetailView            *infoView;
 
 
 @property (nonatomic, retain) FetchController *fetchController;
