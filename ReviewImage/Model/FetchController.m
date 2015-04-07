@@ -142,8 +142,10 @@
 //        if ([entityName isEqualToString:NSStringFromClass([Window class])]) {
 //            sort = [NSSortDescriptor sortDescriptorWithKey:@"wd_name" ascending:YES];
 //        }
-
-        return [fetchedObjects sortedArrayUsingDescriptors:@[sort]];
+        if (sort) {
+            return [fetchedObjects sortedArrayUsingDescriptors:@[sort]];
+        }
+        return fetchedObjects;
     }
     return nil;
 }

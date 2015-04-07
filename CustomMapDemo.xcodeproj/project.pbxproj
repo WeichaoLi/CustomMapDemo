@@ -11,7 +11,6 @@
 		1B55A10F1ABA6D4600BDA3ED /* groundOne.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1B55A10C1ABA6D4600BDA3ED /* groundOne.jpg */; };
 		1B55A1101ABA6D4600BDA3ED /* groundSecond.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1B55A10D1ABA6D4600BDA3ED /* groundSecond.jpg */; };
 		1B55A1121ABA6E0A00BDA3ED /* BG_navBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B55A1111ABA6E0A00BDA3ED /* BG_navBar@2x.png */; };
-		1B55A1151ABA9DD300BDA3ED /* CoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B55A1141ABA9DD300BDA3ED /* CoverView.m */; };
 		1B7EEF831AC1077100E8CD8F /* Plane.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1B7EEF811AC1077100E8CD8F /* Plane.xcdatamodeld */; };
 		1B7EEF8C1AC107CF00E8CD8F /* ContextSetup.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B7EEF8B1AC107CF00E8CD8F /* ContextSetup.m */; };
 		1B7EEF8F1AC1177400E8CD8F /* FetchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B7EEF8E1AC1177400E8CD8F /* FetchController.m */; };
@@ -20,15 +19,11 @@
 		1BB4D8691A0225D7004A2A89 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BB4D8681A0225D7004A2A89 /* AssetsLibrary.framework */; };
 		1BC433AF1AC3A0F7002E4E4A /* Department.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC433AE1AC3A0F7002E4E4A /* Department.m */; };
 		1BC433B21AC3A0F8002E4E4A /* Room.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC433B11AC3A0F8002E4E4A /* Room.m */; };
-		1BC993F01ABFFCDE0056AEA1 /* KxMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC993EF1ABFFCDE0056AEA1 /* KxMenu.m */; };
-		1BC9C6991ACCEC4000F18165 /* DetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC9C6981ACCEC4000F18165 /* DetailView.m */; };
 		1BC9C69B1ACCEF0800F18165 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BC9C69A1ACCEF0800F18165 /* Images.xcassets */; };
 		1BC9C6C01ACCF6DE00F18165 /* Default-1334h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BC9C6BC1ACCF6DE00F18165 /* Default-1334h@2x.png */; };
 		1BC9C6C11ACCF6DE00F18165 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BC9C6BD1ACCF6DE00F18165 /* Default-568h@2x.png */; };
 		1BC9C6C21ACCF6DE00F18165 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BC9C6BE1ACCF6DE00F18165 /* Default@2x.png */; };
 		1BC9C6C31ACCF6DE00F18165 /* Default@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BC9C6BF1ACCF6DE00F18165 /* Default@3x.png */; };
-		1BCAF3D11AC24853009ADAC1 /* PopTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BCAF3D01AC24853009ADAC1 /* PopTableViewController.m */; };
-		1BCF06DD1ACA716200326F0B /* BaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BCF06DC1ACA716200326F0B /* BaseView.m */; };
 		1BCF06DF1ACA8BE900326F0B /* location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BCF06DE1ACA8BE900326F0B /* location@2x.png */; };
 		1BD213E919FE193900EA3C91 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BD213E819FE193900EA3C91 /* Foundation.framework */; };
 		1BD213EB19FE193900EA3C91 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BD213EA19FE193900EA3C91 /* CoreGraphics.framework */; };
@@ -41,7 +36,14 @@
 		1BD2140419FE193900EA3C91 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BD213EC19FE193900EA3C91 /* UIKit.framework */; };
 		1BD2140C19FE193900EA3C91 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1BD2140A19FE193900EA3C91 /* InfoPlist.strings */; };
 		1BD2140E19FE193900EA3C91 /* ReviewImageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD2140D19FE193900EA3C91 /* ReviewImageTests.m */; };
-		1BD2141919FE197000EA3C91 /* CustomMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD2141819FE197000EA3C91 /* CustomMapViewController.m */; };
+		1BDC1BD41ACE420E00F6C67D /* GeoSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC1BD31ACE420E00F6C67D /* GeoSearch.m */; };
+		1BDC1C2B1ACE756900F6C67D /* CustomMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC1C281ACE756900F6C67D /* CustomMapViewController.m */; };
+		1BDC1C2C1ACE756900F6C67D /* PopTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC1C2A1ACE756900F6C67D /* PopTableViewController.m */; };
+		1BDC1C331ACE758000F6C67D /* KxMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC1C301ACE758000F6C67D /* KxMenu.m */; };
+		1BDC1C341ACE758000F6C67D /* UIDevice+Resolutions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC1C321ACE758000F6C67D /* UIDevice+Resolutions.m */; };
+		1BDC1C3C1ACE758C00F6C67D /* BaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC1C371ACE758C00F6C67D /* BaseView.m */; };
+		1BDC1C3D1ACE758C00F6C67D /* CoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC1C391ACE758C00F6C67D /* CoverView.m */; };
+		1BDC1C3E1ACE758C00F6C67D /* DetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC1C3B1ACE758C00F6C67D /* DetailView.m */; };
 		1BDEE46F1ACBD68F004DFB35 /* Window.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDEE46E1ACBD68F004DFB35 /* Window.m */; };
 		EF98EF9666D67B46441F583E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D9720863B00D23245584B31 /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -62,35 +64,25 @@
 		1B55A10C1ABA6D4600BDA3ED /* groundOne.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = groundOne.jpg; sourceTree = "<group>"; };
 		1B55A10D1ABA6D4600BDA3ED /* groundSecond.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = groundSecond.jpg; sourceTree = "<group>"; };
 		1B55A1111ABA6E0A00BDA3ED /* BG_navBar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BG_navBar@2x.png"; sourceTree = "<group>"; };
-		1B55A1131ABA9DD300BDA3ED /* CoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoverView.h; sourceTree = "<group>"; };
-		1B55A1141ABA9DD300BDA3ED /* CoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoverView.m; sourceTree = "<group>"; };
 		1B7EEF821AC1077100E8CD8F /* Plane.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Plane.xcdatamodel; sourceTree = "<group>"; };
 		1B7EEF8A1AC107CF00E8CD8F /* ContextSetup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContextSetup.h; sourceTree = "<group>"; };
 		1B7EEF8B1AC107CF00E8CD8F /* ContextSetup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContextSetup.m; sourceTree = "<group>"; };
 		1B7EEF8D1AC1177400E8CD8F /* FetchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FetchController.h; sourceTree = "<group>"; };
 		1B7EEF8E1AC1177400E8CD8F /* FetchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FetchController.m; sourceTree = "<group>"; };
-		1B7EEF901AC1281700E8CD8F /* LWCViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LWCViewController.h; sourceTree = "<group>"; };
-		1B7EEF911AC1281700E8CD8F /* LWCViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LWCViewController.m; sourceTree = "<group>"; };
-		1B7EEF921AC1281700E8CD8F /* LWCViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LWCViewController.xib; sourceTree = "<group>"; };
+		1B7EEF901AC1281700E8CD8F /* LWCViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LWCViewController.h; path = ReviewImage/LWCViewController.h; sourceTree = "<group>"; };
+		1B7EEF911AC1281700E8CD8F /* LWCViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LWCViewController.m; path = ReviewImage/LWCViewController.m; sourceTree = "<group>"; };
+		1B7EEF921AC1281700E8CD8F /* LWCViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LWCViewController.xib; path = ReviewImage/LWCViewController.xib; sourceTree = "<group>"; };
 		1B87CD081A244D5C005DBDDB /* ReviewImage.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ReviewImage.entitlements; sourceTree = "<group>"; };
 		1BB4D8681A0225D7004A2A89 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		1BC433AD1AC3A0F7002E4E4A /* Department.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Department.h; sourceTree = "<group>"; };
 		1BC433AE1AC3A0F7002E4E4A /* Department.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Department.m; sourceTree = "<group>"; };
 		1BC433B01AC3A0F8002E4E4A /* Room.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Room.h; sourceTree = "<group>"; };
 		1BC433B11AC3A0F8002E4E4A /* Room.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Room.m; sourceTree = "<group>"; };
-		1BC993EE1ABFFCDE0056AEA1 /* KxMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KxMenu.h; sourceTree = "<group>"; };
-		1BC993EF1ABFFCDE0056AEA1 /* KxMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KxMenu.m; sourceTree = "<group>"; };
-		1BC9C6971ACCEC4000F18165 /* DetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailView.h; sourceTree = "<group>"; };
-		1BC9C6981ACCEC4000F18165 /* DetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailView.m; sourceTree = "<group>"; };
 		1BC9C69A1ACCEF0800F18165 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		1BC9C6BC1ACCF6DE00F18165 /* Default-1334h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-1334h@2x.png"; sourceTree = "<group>"; };
 		1BC9C6BD1ACCF6DE00F18165 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		1BC9C6BE1ACCF6DE00F18165 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		1BC9C6BF1ACCF6DE00F18165 /* Default@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@3x.png"; sourceTree = "<group>"; };
-		1BCAF3CF1AC24853009ADAC1 /* PopTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopTableViewController.h; sourceTree = "<group>"; };
-		1BCAF3D01AC24853009ADAC1 /* PopTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopTableViewController.m; sourceTree = "<group>"; };
-		1BCF06DB1ACA716200326F0B /* BaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseView.h; sourceTree = "<group>"; };
-		1BCF06DC1ACA716200326F0B /* BaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseView.m; sourceTree = "<group>"; };
 		1BCF06DE1ACA8BE900326F0B /* location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location@2x.png"; sourceTree = "<group>"; };
 		1BD213E519FE193900EA3C91 /* CustomMapDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomMapDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BD213E819FE193900EA3C91 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -107,8 +99,22 @@
 		1BD2140919FE193900EA3C91 /* CustomMapDemoTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CustomMapDemoTests-Info.plist"; sourceTree = "<group>"; };
 		1BD2140B19FE193900EA3C91 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1BD2140D19FE193900EA3C91 /* ReviewImageTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReviewImageTests.m; sourceTree = "<group>"; };
-		1BD2141719FE197000EA3C91 /* CustomMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomMapViewController.h; sourceTree = "<group>"; };
-		1BD2141819FE197000EA3C91 /* CustomMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomMapViewController.m; sourceTree = "<group>"; };
+		1BDC1BD21ACE420E00F6C67D /* GeoSearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoSearch.h; sourceTree = "<group>"; };
+		1BDC1BD31ACE420E00F6C67D /* GeoSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeoSearch.m; sourceTree = "<group>"; };
+		1BDC1C271ACE756900F6C67D /* CustomMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomMapViewController.h; sourceTree = "<group>"; };
+		1BDC1C281ACE756900F6C67D /* CustomMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomMapViewController.m; sourceTree = "<group>"; };
+		1BDC1C291ACE756900F6C67D /* PopTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopTableViewController.h; sourceTree = "<group>"; };
+		1BDC1C2A1ACE756900F6C67D /* PopTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopTableViewController.m; sourceTree = "<group>"; };
+		1BDC1C2F1ACE758000F6C67D /* KxMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KxMenu.h; sourceTree = "<group>"; };
+		1BDC1C301ACE758000F6C67D /* KxMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KxMenu.m; sourceTree = "<group>"; };
+		1BDC1C311ACE758000F6C67D /* UIDevice+Resolutions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+Resolutions.h"; sourceTree = "<group>"; };
+		1BDC1C321ACE758000F6C67D /* UIDevice+Resolutions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+Resolutions.m"; sourceTree = "<group>"; };
+		1BDC1C361ACE758C00F6C67D /* BaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseView.h; sourceTree = "<group>"; };
+		1BDC1C371ACE758C00F6C67D /* BaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseView.m; sourceTree = "<group>"; };
+		1BDC1C381ACE758C00F6C67D /* CoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoverView.h; sourceTree = "<group>"; };
+		1BDC1C391ACE758C00F6C67D /* CoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoverView.m; sourceTree = "<group>"; };
+		1BDC1C3A1ACE758C00F6C67D /* DetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailView.h; sourceTree = "<group>"; };
+		1BDC1C3B1ACE758C00F6C67D /* DetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailView.m; sourceTree = "<group>"; };
 		1BDEE46D1ACBD68F004DFB35 /* Window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Window.h; sourceTree = "<group>"; };
 		1BDEE46E1ACBD68F004DFB35 /* Window.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Window.m; sourceTree = "<group>"; };
 		7D9720863B00D23245584B31 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -151,7 +157,7 @@
 				1B55A10D1ABA6D4600BDA3ED /* groundSecond.jpg */,
 			);
 			name = resource;
-			path = ../resource;
+			path = ../../resource;
 			sourceTree = "<group>";
 		};
 		1B7EEF801AC1077100E8CD8F /* Model */ = {
@@ -172,15 +178,6 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		1BC993ED1ABFFCDE0056AEA1 /* menu */ = {
-			isa = PBXGroup;
-			children = (
-				1BC993EE1ABFFCDE0056AEA1 /* KxMenu.h */,
-				1BC993EF1ABFFCDE0056AEA1 /* KxMenu.m */,
-			);
-			path = menu;
-			sourceTree = "<group>";
-		};
 		1BC9C6BB1ACCF6DE00F18165 /* Default */ = {
 			isa = PBXGroup;
 			children = (
@@ -189,16 +186,16 @@
 				1BC9C6BE1ACCF6DE00F18165 /* Default@2x.png */,
 				1BC9C6BF1ACCF6DE00F18165 /* Default@3x.png */,
 			);
-			name = Default;
-			path = ReviewImage/Default;
+			path = Default;
 			sourceTree = "<group>";
 		};
 		1BD213DC19FE193900EA3C91 = {
 			isa = PBXGroup;
 			children = (
-				1BC9C6BB1ACCF6DE00F18165 /* Default */,
-				1B55A10A1ABA6D4600BDA3ED /* resource */,
 				1BD213EE19FE193900EA3C91 /* ReviewImage */,
+				1B7EEF901AC1281700E8CD8F /* LWCViewController.h */,
+				1B7EEF911AC1281700E8CD8F /* LWCViewController.m */,
+				1B7EEF921AC1281700E8CD8F /* LWCViewController.xib */,
 				1BD2140719FE193900EA3C91 /* ReviewImageTests */,
 				1BD213E719FE193900EA3C91 /* Frameworks */,
 				1BD213E619FE193900EA3C91 /* Products */,
@@ -231,24 +228,17 @@
 		1BD213EE19FE193900EA3C91 /* ReviewImage */ = {
 			isa = PBXGroup;
 			children = (
-				1BC993ED1ABFFCDE0056AEA1 /* menu */,
 				1B87CD081A244D5C005DBDDB /* ReviewImage.entitlements */,
 				1BD213F719FE193900EA3C91 /* LWCAppDelegate.h */,
 				1BD213F819FE193900EA3C91 /* LWCAppDelegate.m */,
-				1BD2141719FE197000EA3C91 /* CustomMapViewController.h */,
-				1BD2141819FE197000EA3C91 /* CustomMapViewController.m */,
-				1BCAF3CF1AC24853009ADAC1 /* PopTableViewController.h */,
-				1BCAF3D01AC24853009ADAC1 /* PopTableViewController.m */,
-				1B7EEF901AC1281700E8CD8F /* LWCViewController.h */,
-				1B7EEF911AC1281700E8CD8F /* LWCViewController.m */,
-				1B7EEF921AC1281700E8CD8F /* LWCViewController.xib */,
-				1B55A1131ABA9DD300BDA3ED /* CoverView.h */,
-				1B55A1141ABA9DD300BDA3ED /* CoverView.m */,
-				1BCF06DB1ACA716200326F0B /* BaseView.h */,
-				1BCF06DC1ACA716200326F0B /* BaseView.m */,
-				1BC9C6971ACCEC4000F18165 /* DetailView.h */,
-				1BC9C6981ACCEC4000F18165 /* DetailView.m */,
+				1BDC1C261ACE756900F6C67D /* ViewController */,
+				1BDC1BD21ACE420E00F6C67D /* GeoSearch.h */,
+				1BDC1BD31ACE420E00F6C67D /* GeoSearch.m */,
+				1BDC1C351ACE758C00F6C67D /* CommonView */,
 				1B7EEF801AC1077100E8CD8F /* Model */,
+				1BC9C6BB1ACCF6DE00F18165 /* Default */,
+				1BDC1C2D1ACE758000F6C67D /* Utility */,
+				1B55A10A1ABA6D4600BDA3ED /* resource */,
 				1BD213EF19FE193900EA3C91 /* Supporting Files */,
 			);
 			path = ReviewImage;
@@ -282,6 +272,49 @@
 				1BD2140A19FE193900EA3C91 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1BDC1C261ACE756900F6C67D /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				1BDC1C271ACE756900F6C67D /* CustomMapViewController.h */,
+				1BDC1C281ACE756900F6C67D /* CustomMapViewController.m */,
+				1BDC1C291ACE756900F6C67D /* PopTableViewController.h */,
+				1BDC1C2A1ACE756900F6C67D /* PopTableViewController.m */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		1BDC1C2D1ACE758000F6C67D /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				1BDC1C2E1ACE758000F6C67D /* menu */,
+				1BDC1C311ACE758000F6C67D /* UIDevice+Resolutions.h */,
+				1BDC1C321ACE758000F6C67D /* UIDevice+Resolutions.m */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		1BDC1C2E1ACE758000F6C67D /* menu */ = {
+			isa = PBXGroup;
+			children = (
+				1BDC1C2F1ACE758000F6C67D /* KxMenu.h */,
+				1BDC1C301ACE758000F6C67D /* KxMenu.m */,
+			);
+			path = menu;
+			sourceTree = "<group>";
+		};
+		1BDC1C351ACE758C00F6C67D /* CommonView */ = {
+			isa = PBXGroup;
+			children = (
+				1BDC1C361ACE758C00F6C67D /* BaseView.h */,
+				1BDC1C371ACE758C00F6C67D /* BaseView.m */,
+				1BDC1C381ACE758C00F6C67D /* CoverView.h */,
+				1BDC1C391ACE758C00F6C67D /* CoverView.m */,
+				1BDC1C3A1ACE758C00F6C67D /* DetailView.h */,
+				1BDC1C3B1ACE758C00F6C67D /* DetailView.m */,
+			);
+			path = CommonView;
 			sourceTree = "<group>";
 		};
 		5D0041A9405D59950EBB650C /* Pods */ = {
@@ -442,21 +475,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BDC1C3D1ACE758C00F6C67D /* CoverView.m in Sources */,
+				1BDC1C2B1ACE756900F6C67D /* CustomMapViewController.m in Sources */,
 				1B7EEF931AC1281700E8CD8F /* LWCViewController.m in Sources */,
+				1BDC1C3E1ACE758C00F6C67D /* DetailView.m in Sources */,
+				1BDC1C3C1ACE758C00F6C67D /* BaseView.m in Sources */,
 				1BDEE46F1ACBD68F004DFB35 /* Window.m in Sources */,
-				1BC9C6991ACCEC4000F18165 /* DetailView.m in Sources */,
-				1BCAF3D11AC24853009ADAC1 /* PopTableViewController.m in Sources */,
-				1B55A1151ABA9DD300BDA3ED /* CoverView.m in Sources */,
+				1BDC1C2C1ACE756900F6C67D /* PopTableViewController.m in Sources */,
 				1B7EEF831AC1077100E8CD8F /* Plane.xcdatamodeld in Sources */,
 				1BC433AF1AC3A0F7002E4E4A /* Department.m in Sources */,
 				1BD213F519FE193900EA3C91 /* main.m in Sources */,
+				1BDC1C341ACE758000F6C67D /* UIDevice+Resolutions.m in Sources */,
 				1BC433B21AC3A0F8002E4E4A /* Room.m in Sources */,
-				1BC993F01ABFFCDE0056AEA1 /* KxMenu.m in Sources */,
-				1BCF06DD1ACA716200326F0B /* BaseView.m in Sources */,
 				1B7EEF8F1AC1177400E8CD8F /* FetchController.m in Sources */,
-				1BD2141919FE197000EA3C91 /* CustomMapViewController.m in Sources */,
+				1BDC1BD41ACE420E00F6C67D /* GeoSearch.m in Sources */,
 				1BD213F919FE193900EA3C91 /* LWCAppDelegate.m in Sources */,
 				1B7EEF8C1AC107CF00E8CD8F /* ContextSetup.m in Sources */,
+				1BDC1C331ACE758000F6C67D /* KxMenu.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

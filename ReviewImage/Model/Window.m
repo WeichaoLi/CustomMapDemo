@@ -14,7 +14,7 @@
 
 @dynamic wd_info;
 @dynamic wd_name;
-@dynamic wd_point;
+@dynamic wd_frame;
 @dynamic dept;
 
 @end

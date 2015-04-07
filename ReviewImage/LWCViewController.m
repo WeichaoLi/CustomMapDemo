@@ -47,15 +47,15 @@
         department1.dp_info = @"房地产  106室 107室 108室 109室 110室";
         
         NSArray *array1 = @[@"34",@"35",@"36",@"37",@"38",@"39"];
-        NSArray *arr = @[@"{315, 100}",
-                         @"{300, 100}",
-                         @"{286, 100}",
-                         @"{273, 100}",
+        NSArray *arr = @[@"{{309, 95}, {11, 10}}",
+                         @"{{295, 95}, {11, 10}}",
+                         @"{{283, 95}, {11, 10}}",
+                         @"{{268, 95}, {11, 10}}",
                          @"",@""];
         for (int i=0 ; i < arr.count; i++) {
             Window *window = [NSEntityDescription insertNewObjectForEntityForName:@"Window" inManagedObjectContext:_fetchController.managedObjectContext];
             window.wd_name = array1[i];
-            window.wd_point = arr[i];
+            window.wd_frame = arr[i];
             window.dept = department1;
         }
         

@@ -184,13 +184,14 @@
 //    [_timer invalidate];
     [_timer removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
     _timer = nil;
+    CGPathRelease(pathRef);
     [super removeFromSuperview];
 }
 
 - (void)dealloc {
     [_timer removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
     _timer = nil;
-    _para = nil;    
+    _para = nil;
 }
 
 @end

@@ -16,9 +16,9 @@
         <relationship name="dept" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Department" inverseName="rooms" inverseEntity="Department" syncable="YES"/>
     </entity>
     <entity name="Window" representedClassName="Window" syncable="YES">
+        <attribute name="wd_frame" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="wd_info" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="wd_name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="wd_point" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="dept" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Department" inverseName="windows" inverseEntity="Department" syncable="YES"/>
     </entity>
     <elements>

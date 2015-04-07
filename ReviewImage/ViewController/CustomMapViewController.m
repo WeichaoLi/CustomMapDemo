@@ -15,6 +15,7 @@
 #import "Department.h"
 #import "Room.h"
 #import "Window.h"
+#import "GeoSearch.h"
 
 @implementation CustomMapViewController {
     PopTableViewController *popTableViewController;
@@ -42,9 +43,10 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor whiteColor];
-    [self createUI];
+
     _entityName = @"Department";
     self.fetchController = [[FetchController alloc] initWithEntity:_entityName];
+    
     _showArray = [NSMutableArray array];
 }
 
@@ -87,7 +89,7 @@
         _txtSearchKey = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 120, 30)];
         _txtSearchKey.delegate = self;
         _txtSearchKey.placeholder = NSLocalizedString(@"输入查询关键词", nil);
-        [_txtSearchKey sizeToFit];
+//        [_txtSearchKey sizeToFit];
         _txtSearchKey.font = [UIFont systemFontOfSize:14];
         _txtSearchKey.returnKeyType = UIReturnKeySearch;
         _txtSearchKey.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
@@ -120,10 +122,12 @@
 
 - (void)loadView {
     [super loadView];
+    NSLog(@"%s",__func__);
     
     self.view.clipsToBounds = YES;
     self.view.contentMode = UIViewContentModeScaleAspectFill;
     
+    [self createUI];
     /****************************scrollview***************************/
     
     _scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
@@ -311,28 +315,28 @@
             if ([obj isMemberOfClass:[Department class]]) {
                 Department *dept = (Department *)obj;
                 if (dept.dp_frame.length) {
-                    point = CGPointMake(CGRectGetMaxX(CGRectFromString(dept.dp_frame)), CGRectGetMidY(CGRectFromString(dept.dp_frame)));
+                    point = CGPointMake(CGRectGetMidX(CGRectFromString(dept.dp_frame)), CGRectGetMidY(CGRectFromString(dept.dp_frame)));
                     [self addDisplayViewWithFrame:CGRectFromString(dept.dp_frame) Scale:initalScale Points:dept.dp_points Parameter:dept];
                 }
                 NSSet *windows = dept.windows;
                 for (Window *window in windows) {
-                    if (window.wd_point.length) {
-                        point = CGPointFromString(window.wd_point);
-                        [_showView createButtonAtPoint:CGPointFromString(window.wd_point) Scale:initalScale WithPara:window];
+                    if (window.wd_frame.length) {
+                        point = CGPointMake(CGRectGetMidX(CGRectFromString(window.wd_frame)), CGRectGetMidY(CGRectFromString(window.wd_frame)));
+                        [_showView createButtonAtPoint:point Scale:initalScale WithPara:window];
                     }
                 }
             }
             if ([obj isMemberOfClass:[Window class]]) {
                 Window *window = (Window *)obj;
-                if (window.wd_point.length) {
-                    point = CGPointFromString(window.wd_point);
-                    [_showView createButtonAtPoint:CGPointFromString(window.wd_point) Scale:initalScale WithPara:window];
+                if (window.wd_frame.length) {
+                    point = CGPointMake(CGRectGetMidX(CGRectFromString(window.wd_frame)), CGRectGetMidY(CGRectFromString(window.wd_frame)));
+                    [_showView createButtonAtPoint:point Scale:initalScale WithPara:window];
                 }
             }
             if ([obj isMemberOfClass:[Room class]]) {
                 Room *room = (Room *)obj;
                 if (room.rm_frame.length) {
-                    point = CGPointMake(CGRectGetMaxX(CGRectFromString(room.rm_frame)), CGRectGetMidY(CGRectFromString(room.rm_frame)));
+                    point = CGPointMake(CGRectGetMidX(CGRectFromString(room.rm_frame)), CGRectGetMidY(CGRectFromString(room.rm_frame)));
                     [self addDisplayViewWithFrame:CGRectFromString(room.rm_frame) Scale:initalScale Points:nil Parameter:room];
                 }
             }
@@ -358,11 +362,12 @@
 #pragma mark 点击图标按钮
 
 - (void)touchButton:(id)para {
-    NSLog(@"%@",para);
     [self handleTouch:para];
 }
 
 - (void)handleTouch:(id)para {
+    NSLog(@"%@",para);
+    [_infoView setHidden:NO];
     if (!_infoView) {
         CGRect frame = self.view.frame;
         _infoView = [[DetailView alloc] initWithFrame:CGRectMake(0, frame.size.height - 150, frame.size.width, 150)];
@@ -371,8 +376,7 @@
         _infoView.alpha = 0.7;
         [self.view insertSubview:_infoView aboveSubview:_scrollView];
         [_infoView layoutIfNeeded];
-    }    
-    [_infoView setHidden:NO];
+    }
     if (para) {
         if ([para isMemberOfClass:[Department class]]) {
             Department *dept = (Department *)para;
@@ -384,21 +388,56 @@
             _infoView.lable_1.text = window.wd_name;
             _infoView.lable_2.text = window.wd_info;
         }
+        if ([para isMemberOfClass:[Room class]]) {
+            Room *room = (Room *)para;
+            _infoView.lable_1.text = room.rm_name;
+            _infoView.lable_2.text = room.rm_info;
+        }
     }
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [_txtSearchKey resignFirstResponder];
     UITouch *touch = [touches anyObject];
-    CGPoint point = [touch locationInView:_infoView];
-    if (point.x<0 || point.y <0) {
-        [_infoView setHidden:YES];
-    }
-//    if (_infoView.hidden) {
-//        [_infoView setHidden:NO];
-//    }else {
+
+//    if (_infoView && !_infoView.hidden && ![touch.view isMemberOfClass:[DetailView class]]) {
 //        [_infoView setHidden:YES];
+//    }else {
+//        if ([touch.view isMemberOfClass:[BaseView class]]) {
+//            [self geoCoordinateWithPoint:[touch locationInView:_showView]];
+//        }
 //    }
+    
+    if (![self geoCoordinateWithPoint:[touch locationInView:_showView]]) {
+        if (_infoView && !_infoView.hidden && ![touch.view isMemberOfClass:[DetailView class]]) {
+            [_infoView setHidden:YES];
+        }
+    }
+}
+
+#pragma mark - 坐标反查
+
+- (BOOL)geoCoordinateWithPoint:(CGPoint)point {
+    
+    NSMutableArray *array = [NSMutableArray array];
+    [array addObjectsFromArray:[_fetchController queryDataWithPredicate:nil InEntity:@"Department" SortByKey:nil]];
+    [array addObjectsFromArray:[_fetchController queryDataWithPredicate:nil InEntity:@"Window" SortByKey:nil]];
+    [array addObjectsFromArray:[_fetchController queryDataWithPredicate:nil InEntity:@"Room" SortByKey:nil]];
+    
+    array = [NSMutableArray arrayWithArray:[GeoSearch geoCoordinateWithArray:array
+                                                                     AtPoint:point
+                                                                   WithScale:initalScale
+                                                                      InRect:_showView.bounds]];
+    if (array.count) {
+        
+        NSLog(@"\n\n\n\n ================坐标反查");
+        NSLog(@"%@",NSStringFromCGPoint(point));
+        
+        id para = [array firstObject];
+        [self handleTouch:para];
+        return YES;
+    }
+    return NO;
 }
 
 #pragma mark- Scrollview delegate
