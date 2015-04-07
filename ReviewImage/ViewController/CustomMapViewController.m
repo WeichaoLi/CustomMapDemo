@@ -162,12 +162,46 @@
  */
 - (void)loadImage {
     if (_imageView == nil) {
-        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"groundOne" ofType:@".jpg"];
-        NSData *imageData = [NSData dataWithContentsOfFile:filePath];
-        UIImage *image = [UIImage imageWithData:imageData];
-        self.imageView = [[UIImageView alloc] initWithImage:image];
-        [self imageDidChange];
+        @autoreleasepool {
+            NSString *filePath = [[NSBundle mainBundle] pathForResource:@"groundOne.png" ofType:@""];
+            NSData *imageData = [NSData dataWithContentsOfFile:filePath];
+            UIImage *image = [UIImage imageWithData:imageData];
+            image = [self compressImageWith:image];
+            self.imageView = [[UIImageView alloc] initWithImage:image];
+            [self imageDidChange];
+        }
     }
+}
+
+- (UIImage *)compressImageWith:(UIImage *)image {
+    NSLog(@"%@",NSStringFromCGSize(image.size));
+    float imageWidth = image.size.width;
+    float imageHeight = image.size.height;
+
+//    CGSize size = image.size;
+    CGFloat ratio;
+//
+//    if (_imageOrientation == ImageOrientationPortrait || _imageOrientation == ImageOrientationPortraitUpsideDown) { //判断图片是不是正的
+//        ratio = MIN(_scrollView.frame.size.width / size.width, _scrollView.frame.size.height / size.height);
+//    }else {
+//        ratio = MIN(_scrollView.frame.size.width / size.height, _scrollView.frame.size.height / size.width);
+//    }
+    
+    ratio = 1;
+    
+    // 创建一个bitmap的context
+    // 并把它设置成为当前正在使用的context
+    UIGraphicsBeginImageContext(CGSizeMake(imageWidth * ratio, imageHeight * ratio));
+    
+    [image drawInRect:CGRectMake(0, 0, imageWidth * ratio, imageHeight * ratio)];
+    
+    // 从当前context中创建一个改变大小后的图片
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    // 使当前的context出堆栈
+    UIGraphicsEndImageContext();
+    NSLog(@"hou:  %@",NSStringFromCGSize(newImage.size));
+    return newImage;
+    
 }
 
 #pragma mark- 属性设置
@@ -241,29 +275,6 @@
     if(para) {
         [_showArray addObject:para];
     }
-//    switch (_searchType) {
-//            
-//        case SearchDepartment:{
-//            Department *dept = (Department *)para;
-//            [_showArray addObject:dept];
-//        }
-//            break;
-//            
-//        case SearchWindow:{
-//            Window *window = (Window *)para;
-//            [_showArray addObject:window];
-//            
-//        }
-//            break;
-//        case SearchKeyword:{
-//            Room *room = (Room *)para;
-//            [_showArray addObject:room];
-//        }
-//            break;
-//            
-//        default:
-//            break;
-//    }
     
     //在图上显示查询结果
     [self showAllView];
@@ -468,23 +479,22 @@
 }
 
 - (void)resetZoomScale {
-//    CGFloat Rw = _scrollView.frame.size.width / self.imageView.frame.size.width;
-//    CGFloat Rh = _scrollView.frame.size.height / self.imageView.frame.size.height;
-//    
-//    CGFloat scale = 1;
+    CGFloat Rw = _scrollView.frame.size.width / self.imageView.frame.size.width;
+    CGFloat Rh = _scrollView.frame.size.height / self.imageView.frame.size.height;
     
-//    if (_imageOrientation == ImageOrientationPortrait || _imageOrientation == ImageOrientationPortraitUpsideDown) {
-//        Rw = MAX(Rw, _imageView.image.size.width / (scale * _scrollView.frame.size.width));
-//        Rh = MAX(Rh, _imageView.image.size.height / (scale * _scrollView.frame.size.height));
-//    }else {
-//        Rw = MAX(Rw, _imageView.image.size.width / (scale * _scrollView.frame.size.height));
-//        Rh = MAX(Rh, _imageView.image.size.height / (scale * _scrollView.frame.size.width));
-//    }
+    CGFloat scale = 1;
+    
+    if (_imageOrientation == ImageOrientationPortrait || _imageOrientation == ImageOrientationPortraitUpsideDown) {
+        Rw = MAX(Rw, _imageView.image.size.width / (scale * _scrollView.frame.size.width));
+        Rh = MAX(Rh, _imageView.image.size.height / (scale * _scrollView.frame.size.height));
+    }else {
+        Rw = MAX(Rw, _imageView.image.size.width / (scale * _scrollView.frame.size.height));
+        Rh = MAX(Rh, _imageView.image.size.height / (scale * _scrollView.frame.size.width));
+    }
 
     _scrollView.contentSize = _imageView.frame.size;
     _scrollView.minimumZoomScale = 1;
-//    _scrollView.maximumZoomScale = MAX(MAX(Rw, Rh), 1);
-    _scrollView.maximumZoomScale = 3;
+    _scrollView.maximumZoomScale = MAX(MAX(Rw, Rh), 1);
 }
 
 #pragma mark - Tap gesture
