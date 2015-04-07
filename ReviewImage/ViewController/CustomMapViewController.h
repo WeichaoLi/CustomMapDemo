@@ -40,6 +40,7 @@ typedef NS_ENUM(NSInteger, ImageOrientation) {
     CGRect showFrame;
 }
 
+@property (nonatomic, copy)     NSString            *floor;
 @property (nonatomic, copy)     NSString            *entityName;
 
 @property (nonatomic, readonly) UIScrollView        *scrollView;

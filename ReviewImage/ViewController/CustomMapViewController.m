@@ -12,9 +12,7 @@
 #import "PopTableViewController.h"
 #import "CoverView.h"
 #import "DetailView.h"
-#import "Department.h"
-#import "Room.h"
-#import "Window.h"
+#import "Area.h"
 #import "GeoSearch.h"
 
 @implementation CustomMapViewController {
@@ -43,9 +41,10 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor whiteColor];
-
-    _entityName = @"Department";
-    self.fetchController = [[FetchController alloc] initWithEntity:_entityName];
+    
+    _floor = @"L1";
+    _entityName = @"Area";
+    self.fetchController = [[FetchController alloc] initWithEntity:_entityName WithSortKey:@"a_id"];
     
     _showArray = [NSMutableArray array];
 }
@@ -118,6 +117,7 @@
     _containerView = nil;
     _infoView = nil;
     _showArray = nil;
+    _floor = nil;
 }
 
 - (void)loadView {
@@ -248,18 +248,20 @@
         [self addChildViewController:popTableViewController];
     }    
 
+    NSPredicate *predicate = nil;
     if (button.tag == 110) {
         _searchType = SearchDepartment;
-        popTableViewController.dataArray = [_fetchController queryDataWithPredicate:nil InEntity:@"Department" SortByKey:@"dp_name"];
         popTableViewController.headerTitle = NSLocalizedString( @"请选择部门", nil);
+        predicate = [NSPredicate predicateWithFormat:@"a_floor == %@ AND a_type == '1' AND a_number == '0'",_floor];
     }
     
     if (button.tag == 111) {
         _searchType = SearchWindow;
-        popTableViewController.dataArray = [_fetchController queryDataWithPredicate:nil InEntity:@"Window" SortByKey:@"wd_name"];
         popTableViewController.headerTitle = NSLocalizedString(@"请选择窗口", nil);
+        predicate = [NSPredicate predicateWithFormat:@"a_floor == %@ AND a_type == '3' AND a_number == '0'",_floor];
+        
     }
-    
+     popTableViewController.dataArray = [_fetchController queryDataWithPredicate:predicate InEntity:_entityName SortByKey:@"a_id"];
     [popTableViewController showInView:self.view];
 }
 
@@ -269,10 +271,22 @@
  *  @param para 部门或窗口对象
  */
 - (void)displayWithPara:(id)para {
+    NSLog(@"%@",para);
     //清空显示列表
     _showArray = [NSMutableArray array];
     
-    if(para) {
+//    if(para) {
+//        [_showArray addObject:para];
+//    }
+    
+    Area *area = (Area *)para;
+    if ([area.a_type intValue] == 1) {
+        //部门
+        [_showArray addObjectsFromArray:[_fetchController queryDataWithPredicate:[NSPredicate predicateWithFormat:@"a_organization == %@",area.a_organization]
+                                        InEntity:_entityName
+                                       SortByKey:@"a_id"]];
+    }else if ([area.a_type intValue] == 3){
+        //窗口
         [_showArray addObject:para];
     }
     
@@ -322,34 +336,29 @@
     CGPoint point = CGPointZero;
     [_showView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     if (_showArray.count) {
-        for (id obj in _showArray) {
-            if ([obj isMemberOfClass:[Department class]]) {
-                Department *dept = (Department *)obj;
-                if (dept.dp_frame.length) {
-                    point = CGPointMake(CGRectGetMidX(CGRectFromString(dept.dp_frame)), CGRectGetMidY(CGRectFromString(dept.dp_frame)));
-                    [self addDisplayViewWithFrame:CGRectFromString(dept.dp_frame) Scale:initalScale Points:dept.dp_points Parameter:dept];
+        for (Area *area in _showArray) {
+            
+            CGFloat ox = [area.a_originX floatValue];
+            CGFloat oy = [area.a_originY floatValue];
+            CGFloat ex = [area.a_endX floatValue];
+            CGFloat ey = [area.a_endY floatValue];
+            
+            point = CGPointMake((ex + ox)/2, (ey + oy)/2);
+            
+            if ([area.a_type intValue] == 3) {
+                //显示窗口按钮
+                if (ex && ey) {
+//                    [self addDisplayViewWithFrame:CGRectMake(ox, oy, ex - ox, ey - oy) Scale:initalScale Points:nil Parameter:area];
+                    [_showView createButtonAtPoint:point Scale:initalScale WithPara:area];
                 }
-                NSSet *windows = dept.windows;
-                for (Window *window in windows) {
-                    if (window.wd_frame.length) {
-                        point = CGPointMake(CGRectGetMidX(CGRectFromString(window.wd_frame)), CGRectGetMidY(CGRectFromString(window.wd_frame)));
-                        [_showView createButtonAtPoint:point Scale:initalScale WithPara:window];
-                    }
+                
+            }else if ([area.a_type intValue] == 1) {
+                //显示部门区域
+                if (ex && ey) {
+                    [self addDisplayViewWithFrame:CGRectMake(ox, oy, ex - ox, ey - oy) Scale:initalScale Points:nil Parameter:area];
                 }
-            }
-            if ([obj isMemberOfClass:[Window class]]) {
-                Window *window = (Window *)obj;
-                if (window.wd_frame.length) {
-                    point = CGPointMake(CGRectGetMidX(CGRectFromString(window.wd_frame)), CGRectGetMidY(CGRectFromString(window.wd_frame)));
-                    [_showView createButtonAtPoint:point Scale:initalScale WithPara:window];
-                }
-            }
-            if ([obj isMemberOfClass:[Room class]]) {
-                Room *room = (Room *)obj;
-                if (room.rm_frame.length) {
-                    point = CGPointMake(CGRectGetMidX(CGRectFromString(room.rm_frame)), CGRectGetMidY(CGRectFromString(room.rm_frame)));
-                    [self addDisplayViewWithFrame:CGRectFromString(room.rm_frame) Scale:initalScale Points:nil Parameter:room];
-                }
+            }else if ([area.a_type intValue] == 2) {
+                
             }
         }
     }
@@ -389,20 +398,12 @@
         [_infoView layoutIfNeeded];
     }
     if (para) {
-        if ([para isMemberOfClass:[Department class]]) {
-            Department *dept = (Department *)para;
-            _infoView.lable_1.text = dept.dp_name;
-            _infoView.lable_2.text = dept.dp_info;
-        }
-        if ([para isMemberOfClass:[Window class]]) {
-            Window *window = (Window *)para;
-            _infoView.lable_1.text = window.wd_name;
-            _infoView.lable_2.text = window.wd_info;
-        }
-        if ([para isMemberOfClass:[Room class]]) {
-            Room *room = (Room *)para;
-            _infoView.lable_1.text = room.rm_name;
-            _infoView.lable_2.text = room.rm_info;
+        Area *area = (Area *)para;
+        _infoView.lable_1.text = [NSString stringWithFormat:@"部门名称：%@", area.a_organization];
+        if ([area.a_type intValue] == 3) {
+            _infoView.lable_2.text = [NSString stringWithFormat:@"窗口号：%@", area.a_name];
+        }else if ([area.a_type intValue] == 2) {
+            _infoView.lable_2.text = [NSString stringWithFormat:@"房间号：%@", area.a_name];
         }
     }
 }
@@ -431,9 +432,7 @@
 - (BOOL)geoCoordinateWithPoint:(CGPoint)point {
     
     NSMutableArray *array = [NSMutableArray array];
-    [array addObjectsFromArray:[_fetchController queryDataWithPredicate:nil InEntity:@"Department" SortByKey:nil]];
-    [array addObjectsFromArray:[_fetchController queryDataWithPredicate:nil InEntity:@"Window" SortByKey:nil]];
-    [array addObjectsFromArray:[_fetchController queryDataWithPredicate:nil InEntity:@"Room" SortByKey:nil]];
+    [array addObjectsFromArray:_fetchController.fetchedResultsController.fetchedObjects];
     
     array = [NSMutableArray arrayWithArray:[GeoSearch geoCoordinateWithArray:array
                                                                      AtPoint:point
@@ -601,15 +600,14 @@
     
     
     _showArray = [NSMutableArray arrayWithArray:[_fetchController queryDataWithKeywords:keyWords
-                                                                              InEntitys:@{@"Department": @[@"dp_name", @"dp_info"],
-                                                                                          @"Window": @[@"wd_name", @"wd_info"],
-                                                                                          @"Room": @[@"rm_name", @"rm_info"]}
+                                                                              InEntitys:@{@"Area": @[@"a_name", @"a_organization", @"a_info"],
+                                                                                          }
                                                                               SortByKey:nil]];
     
     
     
     popTableViewController.dataArray = _showArray;
-//    popTableViewController.headerTitle = NSLocalizedString(@"搜索结果", nil);
+    popTableViewController.headerTitle = NSLocalizedString(@"搜索结果", nil);
     
     if (_showArray.count) {
         [popTableViewController showInView:self.view];

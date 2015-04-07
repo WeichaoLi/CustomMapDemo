@@ -15,7 +15,7 @@
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 
-- (id)initWithEntity:(NSString *)entity;
+- (id)initWithEntity:(NSString *)entity WithSortKey:(NSString *)sortKey;
 
 //查
 - (NSArray *)queryDataWithPredicate:(NSPredicate *)predicate InEntity:(NSString *)entity SortByKey:(NSString *)key;

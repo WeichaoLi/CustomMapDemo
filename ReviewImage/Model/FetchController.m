@@ -8,15 +8,16 @@
 
 #import "FetchController.h"
 #import "ContextSetup.h"
-#import "Department.h"
-#import "Window.h"
-#import "Room.h"
+#import "Area.h"
 
-@implementation FetchController
+@implementation FetchController {
+    NSString *sortKey;
+}
 
-- (id)initWithEntity:(NSString *)entity {
+- (id)initWithEntity:(NSString *)entity WithSortKey:(NSString *)key {
     if (self = [super init]) {
         [self setEntityName:entity];
+        sortKey = key;
         ContextSetup *contextSetup = [[ContextSetup alloc] initWithStoreURL:[self storeURL] modelURL:[self modelURL]];
         self.managedObjectContext = contextSetup.managedObjectContext;
         [self setFetchedResultsController];
@@ -52,7 +53,7 @@
     [fetchRequest setFetchBatchSize:20];
     
     //设置排序，按 key 排序
-    NSSortDescriptor *nameSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"dp_id" ascending:YES];
+    NSSortDescriptor *nameSortDescriptor = [[NSSortDescriptor alloc] initWithKey:sortKey ascending:YES];
     NSArray *sortDescriptors = @[ nameSortDescriptor];
     [fetchRequest setSortDescriptors:sortDescriptors];
     
@@ -136,12 +137,6 @@
             sort = [NSSortDescriptor sortDescriptorWithKey:key ascending:YES];
         }
         
-//        if([entityName isEqualToString:NSStringFromClass([Department class])]) {
-//            sort = [NSSortDescriptor sortDescriptorWithKey:@"dp_name" ascending:YES];
-//        }
-//        if ([entityName isEqualToString:NSStringFromClass([Window class])]) {
-//            sort = [NSSortDescriptor sortDescriptorWithKey:@"wd_name" ascending:YES];
-//        }
         if (sort) {
             return [fetchedObjects sortedArrayUsingDescriptors:@[sort]];
         }

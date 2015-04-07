@@ -13,8 +13,6 @@
 		1B7EEF931AC1281700E8CD8F /* LWCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B7EEF911AC1281700E8CD8F /* LWCViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1B7EEF941AC1281700E8CD8F /* LWCViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B7EEF921AC1281700E8CD8F /* LWCViewController.xib */; };
 		1BB4D8691A0225D7004A2A89 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BB4D8681A0225D7004A2A89 /* AssetsLibrary.framework */; };
-		1BC433AF1AC3A0F7002E4E4A /* Department.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC433AE1AC3A0F7002E4E4A /* Department.m */; };
-		1BC433B21AC3A0F8002E4E4A /* Room.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC433B11AC3A0F8002E4E4A /* Room.m */; };
 		1BC9C69B1ACCEF0800F18165 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BC9C69A1ACCEF0800F18165 /* Images.xcassets */; };
 		1BC9C6C01ACCF6DE00F18165 /* Default-1334h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BC9C6BC1ACCF6DE00F18165 /* Default-1334h@2x.png */; };
 		1BC9C6C11ACCF6DE00F18165 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BC9C6BD1ACCF6DE00F18165 /* Default-568h@2x.png */; };
@@ -36,6 +34,7 @@
 		1BD48FD51AD38D6B007D6350 /* groundOne.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BD48FD01AD38D6B007D6350 /* groundOne.png */; };
 		1BD48FD61AD38D6B007D6350 /* groundSecond.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1BD48FD11AD38D6B007D6350 /* groundSecond.jpg */; };
 		1BD48FD71AD38D6B007D6350 /* location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BD48FD21AD38D6B007D6350 /* location@2x.png */; };
+		1BD48FDD1AD3BF67007D6350 /* Area.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD48FDC1AD3BF67007D6350 /* Area.m */; };
 		1BDC1BD41ACE420E00F6C67D /* GeoSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC1BD31ACE420E00F6C67D /* GeoSearch.m */; };
 		1BDC1C2B1ACE756900F6C67D /* CustomMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC1C281ACE756900F6C67D /* CustomMapViewController.m */; };
 		1BDC1C2C1ACE756900F6C67D /* PopTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC1C2A1ACE756900F6C67D /* PopTableViewController.m */; };
@@ -44,7 +43,6 @@
 		1BDC1C3C1ACE758C00F6C67D /* BaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC1C371ACE758C00F6C67D /* BaseView.m */; };
 		1BDC1C3D1ACE758C00F6C67D /* CoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC1C391ACE758C00F6C67D /* CoverView.m */; };
 		1BDC1C3E1ACE758C00F6C67D /* DetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC1C3B1ACE758C00F6C67D /* DetailView.m */; };
-		1BDEE46F1ACBD68F004DFB35 /* Window.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDEE46E1ACBD68F004DFB35 /* Window.m */; };
 		EF98EF9666D67B46441F583E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D9720863B00D23245584B31 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -70,10 +68,6 @@
 		1B7EEF921AC1281700E8CD8F /* LWCViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LWCViewController.xib; path = ReviewImage/LWCViewController.xib; sourceTree = "<group>"; };
 		1B87CD081A244D5C005DBDDB /* ReviewImage.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ReviewImage.entitlements; sourceTree = "<group>"; };
 		1BB4D8681A0225D7004A2A89 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
-		1BC433AD1AC3A0F7002E4E4A /* Department.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Department.h; sourceTree = "<group>"; };
-		1BC433AE1AC3A0F7002E4E4A /* Department.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Department.m; sourceTree = "<group>"; };
-		1BC433B01AC3A0F8002E4E4A /* Room.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Room.h; sourceTree = "<group>"; };
-		1BC433B11AC3A0F8002E4E4A /* Room.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Room.m; sourceTree = "<group>"; };
 		1BC9C69A1ACCEF0800F18165 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		1BC9C6BC1ACCF6DE00F18165 /* Default-1334h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-1334h@2x.png"; sourceTree = "<group>"; };
 		1BC9C6BD1ACCF6DE00F18165 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -99,6 +93,8 @@
 		1BD48FD01AD38D6B007D6350 /* groundOne.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = groundOne.png; sourceTree = "<group>"; };
 		1BD48FD11AD38D6B007D6350 /* groundSecond.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = groundSecond.jpg; sourceTree = "<group>"; };
 		1BD48FD21AD38D6B007D6350 /* location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location@2x.png"; sourceTree = "<group>"; };
+		1BD48FDB1AD3BF67007D6350 /* Area.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Area.h; sourceTree = "<group>"; };
+		1BD48FDC1AD3BF67007D6350 /* Area.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Area.m; sourceTree = "<group>"; };
 		1BDC1BD21ACE420E00F6C67D /* GeoSearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoSearch.h; sourceTree = "<group>"; };
 		1BDC1BD31ACE420E00F6C67D /* GeoSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeoSearch.m; sourceTree = "<group>"; };
 		1BDC1C271ACE756900F6C67D /* CustomMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomMapViewController.h; sourceTree = "<group>"; };
@@ -115,8 +111,6 @@
 		1BDC1C391ACE758C00F6C67D /* CoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoverView.m; sourceTree = "<group>"; };
 		1BDC1C3A1ACE758C00F6C67D /* DetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailView.h; sourceTree = "<group>"; };
 		1BDC1C3B1ACE758C00F6C67D /* DetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailView.m; sourceTree = "<group>"; };
-		1BDEE46D1ACBD68F004DFB35 /* Window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Window.h; sourceTree = "<group>"; };
-		1BDEE46E1ACBD68F004DFB35 /* Window.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Window.m; sourceTree = "<group>"; };
 		7D9720863B00D23245584B31 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFD7DF34405AC013895BA360 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -155,12 +149,8 @@
 				1B7EEF8A1AC107CF00E8CD8F /* ContextSetup.h */,
 				1B7EEF8B1AC107CF00E8CD8F /* ContextSetup.m */,
 				1B7EEF811AC1077100E8CD8F /* Plane.xcdatamodeld */,
-				1BDEE46D1ACBD68F004DFB35 /* Window.h */,
-				1BDEE46E1ACBD68F004DFB35 /* Window.m */,
-				1BC433B01AC3A0F8002E4E4A /* Room.h */,
-				1BC433B11AC3A0F8002E4E4A /* Room.m */,
-				1BC433AD1AC3A0F7002E4E4A /* Department.h */,
-				1BC433AE1AC3A0F7002E4E4A /* Department.m */,
+				1BD48FDB1AD3BF67007D6350 /* Area.h */,
+				1BD48FDC1AD3BF67007D6350 /* Area.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -474,18 +464,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BD48FDD1AD3BF67007D6350 /* Area.m in Sources */,
 				1BDC1C3D1ACE758C00F6C67D /* CoverView.m in Sources */,
 				1BDC1C2B1ACE756900F6C67D /* CustomMapViewController.m in Sources */,
 				1B7EEF931AC1281700E8CD8F /* LWCViewController.m in Sources */,
 				1BDC1C3E1ACE758C00F6C67D /* DetailView.m in Sources */,
 				1BDC1C3C1ACE758C00F6C67D /* BaseView.m in Sources */,
-				1BDEE46F1ACBD68F004DFB35 /* Window.m in Sources */,
 				1BDC1C2C1ACE756900F6C67D /* PopTableViewController.m in Sources */,
 				1B7EEF831AC1077100E8CD8F /* Plane.xcdatamodeld in Sources */,
-				1BC433AF1AC3A0F7002E4E4A /* Department.m in Sources */,
 				1BD213F519FE193900EA3C91 /* main.m in Sources */,
 				1BDC1C341ACE758000F6C67D /* UIDevice+Resolutions.m in Sources */,
-				1BC433B21AC3A0F8002E4E4A /* Room.m in Sources */,
 				1B7EEF8F1AC1177400E8CD8F /* FetchController.m in Sources */,
 				1BDC1BD41ACE420E00F6C67D /* GeoSearch.m in Sources */,
 				1BD213F919FE193900EA3C91 /* LWCAppDelegate.m in Sources */,

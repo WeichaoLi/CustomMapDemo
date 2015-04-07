@@ -7,17 +7,12 @@
 //
 
 #import "PopTableViewController.h"
-#import "Department.h"
-#import "Window.h"
-#import "Room.h"
+#import "Area.h"
 
 @implementation PopTableViewController {
     UIView *sectionHeader;
     UIView *sectionFooter;
 }
-
-#define VIEW_WIDTH      self.view.bounds.size.width
-#define VIEW_HEIGHT     self.view.bounds.size.height
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -30,7 +25,7 @@
     bgView.alpha = 0.5;
     [self.view addSubview:bgView];
     
-    CGRect frame = CGRectMake((VIEW_WIDTH - 220)/2, (VIEW_HEIGHT - 470)/2, 220, 470);
+    CGRect frame = CGRectMake((self.view.bounds.size.width - 220)/2, (self.view.bounds.size.height - 470)/2, 220, 470);
     self.tableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
     self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
@@ -81,20 +76,8 @@
     }
     
     id obj = _dataArray[indexPath.row];
-    if ([obj isMemberOfClass:[Department class]]) {
-        
-        Department *dept = (Department *)obj;
-        cell.textLabel.text = dept.dp_name;
-        
-    }else if ([obj isMemberOfClass:[Window class]]) {
-        
-        Window *window = (Window *)obj;
-        cell.textLabel.text = window.wd_name;
-        
-    }else if ([obj isMemberOfClass:[Room class]]) {
-        Room *room = (Room *)obj;
-        cell.textLabel.text = room.rm_name;
-    }
+    Area *area = (Area *)obj;
+    cell.textLabel.text = area.a_name;
     
     return cell;
 }

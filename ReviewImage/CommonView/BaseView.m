@@ -80,7 +80,7 @@
     [button addTarget:self action:@selector(clickButton:) forControlEvents:UIControlEventTouchUpInside];
     [button setPara:para];
     
-    [self insertSubview:button atIndex:20];
+    [self insertSubview:button atIndex:100];
 }
 
 - (void)clickButton:(id)sender {

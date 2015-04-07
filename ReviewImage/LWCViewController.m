@@ -7,9 +7,7 @@
 //
 
 #import "LWCViewController.h"
-#import "Department.h"
-#import "Window.h"
-#import "Room.h"
+#import "Area.h"
 
 @interface LWCViewController ()
 
@@ -20,7 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    _fetchController = [[FetchController alloc] initWithEntity:@"Department"];
+    _fetchController = [[FetchController alloc] initWithEntity:@"Area" WithSortKey:@"a_id"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -39,56 +37,61 @@
     
     UIButton *button = (UIButton *)sender;
     if (button.tag == 0) {
-        Department *department1 = [NSEntityDescription insertNewObjectForEntityForName:@"Department" inManagedObjectContext:_fetchController.managedObjectContext];
         
-        department1.dp_frame = [NSString stringWithFormat:@"{{45, 53},{268, 145}}"];
-        department1.dp_points = @"{0,0}-{0,147}-{60,147}-{60,23}-{270,23}-{270,0}";
-        department1.dp_name = @"房地产交易中心";
-        department1.dp_info = @"房地产  106室 107室 108室 109室 110室";
+        NSMutableArray *array = [NSMutableArray array];
         
-        NSArray *array1 = @[@"34",@"35",@"36",@"37",@"38",@"39"];
-        NSArray *arr = @[@"{{309, 95}, {11, 10}}",
-                         @"{{295, 95}, {11, 10}}",
-                         @"{{283, 95}, {11, 10}}",
-                         @"{{268, 95}, {11, 10}}",
-                         @"",@""];
-        for (int i=0 ; i < arr.count; i++) {
-            Window *window = [NSEntityDescription insertNewObjectForEntityForName:@"Window" inManagedObjectContext:_fetchController.managedObjectContext];
-            window.wd_name = array1[i];
-            window.wd_frame = arr[i];
-            window.dept = department1;
-        }
+        NSDictionary *dic1 = @{@"a_id": @1,
+                               @"a_name":           @"总工会",
+                               @"a_organization":   @"总工会",
+                               @"a_type":           @1,
+                               @"a_number":         @"0",
+                               @"a_floor":          @"L1",
+                               @"a_originX":        @0,
+                               @"a_originY":        @0,
+                               @"a_endX":           @0,
+                               @"a_endY":           @0,
+                               };
+        [array addObject:dic1];
+        NSDictionary *dic2 = @{@"a_id": @2,
+                               @"a_name":           @"1",
+                               @"a_organization":   @"总工会",
+                               @"a_type":           @3,
+                               @"a_number":         @"0",
+                               @"a_floor":          @"L1",
+                               @"a_originX":        @2482.0,
+                               @"a_originY":        @1308.0,
+                               @"a_endX":           @2538.0,
+                               @"a_endY":           @1351.0,
+                               };
+        [array addObject:dic2];
+        NSDictionary *dic3 = @{@"a_id": @3,
+                               @"a_name":           @"2",
+                               @"a_organization":   @"总工会",
+                               @"a_type":           @3,
+                               @"a_number":         @"0",
+                               @"a_floor":          @"L1",
+                               @"a_originX":        @2482.0,
+                               @"a_originY":        @1262.0,
+                               @"a_endX":           @2538.0,
+                               @"a_endY":           @1302.0,
+                               };
+        [array addObject:dic3];
+        NSDictionary *dic4 = @{@"a_id": @4,
+                               @"a_name":           @"3",
+                               @"a_organization":   @"总工会",
+                               @"a_type":           @3,
+                               @"a_number":         @"0",
+                               @"a_floor":          @"L1",
+                               @"a_originX":        @2482.0,
+                               @"a_originY":        @1214.0,
+                               @"a_endX":           @2538.0,
+                               @"a_endY":           @1255.0,
+                               };
+        [array addObject:dic4];
         
-        NSArray *roomName = @[@"106室",@"107室",@"108室",@"109室",@"110室",@"111室",@"112室"];
-        NSArray *roomFrame = @[@"{{45, 149},{60, 48}}",
-                               @"{{45, 105},{60, 45}}",
-                               @"{{45, 52},{60, 53}}",
-                               @"{{103, 52},{54, 23}}",
-                               @"{{158, 52},{54, 23}}",
-                               @"{{213, 52},{54, 23}}",
-                               @"{{267, 52},{45, 23}}"
-                               ];
-        for (int i = 0; i< roomName.count; i++) {
-            Room *room = [NSEntityDescription insertNewObjectForEntityForName:@"Room" inManagedObjectContext:_fetchController.managedObjectContext];
-            room.rm_frame = roomFrame[i];
-            room.rm_name = roomName[i];
-            room.dept = department1;
-        }
-        
-        
-        
-        Department *department2 = [NSEntityDescription insertNewObjectForEntityForName:@"Department" inManagedObjectContext:_fetchController.managedObjectContext];
-        
-        department2.dp_frame = [NSString stringWithFormat:@"{{497, 378},{165, 108}}"];
-//        department1.dp_points = @"{0,0}-{0,147}-{60,147}-{60,23}-{270,23}-{270,0}";
-        department2.dp_name = @"婚姻（收养）登记中心";
-        department2.dp_info = @"婚姻、收养";
-        
-        NSArray *array2 = @[@"结婚登记", @"收养登记", @"离婚登记"];
-        for (NSString *str in array2) {
-            Window *window = [NSEntityDescription insertNewObjectForEntityForName:@"Window" inManagedObjectContext:_fetchController.managedObjectContext];
-            window.wd_name = str;
-            window.dept = department2;
+        for (NSDictionary *dic in array) {
+            Area *area = [NSEntityDescription insertNewObjectForEntityForName:@"Area" inManagedObjectContext:_fetchController.managedObjectContext];
+            [area setValuesForKeysWithDictionary:dic];
         }
         
         //保存
@@ -146,19 +149,19 @@
 //        NSError *error = nil;
 //        NSArray *array = [_fetchController.managedObjectContext executeFetchRequest:fetchRequest error:&error];
         
-        if (error) {
-            NSLog(@"%@",error);
-        }else {
-            NSLog(@"%@",array);
-            
-            NSPredicate *filter = [NSPredicate predicateWithFormat:@"dept.dp_name == '婚姻（收养）登记中心'"];
-            NSArray *resArr = [array filteredArrayUsingPredicate:filter];
-
-            for (Window *window in resArr) {
-                NSLog(@"%@",window.wd_name);
-            }
-            
-        }
+//        if (error) {
+//            NSLog(@"%@",error);
+//        }else {
+//            NSLog(@"%@",array);
+//            
+//            NSPredicate *filter = [NSPredicate predicateWithFormat:@"dept.dp_name == '婚姻（收养）登记中心'"];
+//            NSArray *resArr = [array filteredArrayUsingPredicate:filter];
+//
+//            for (Window *window in resArr) {
+//                NSLog(@"%@",window.wd_name);
+//            }
+//            
+//        }
     }
 }
 
