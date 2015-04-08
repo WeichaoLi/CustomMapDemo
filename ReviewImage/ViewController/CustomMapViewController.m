@@ -331,7 +331,7 @@
 }
 
 - (void)showAllView {
-//    [_infoView setHidden:YES];
+    [_infoView setHidden:YES];
     [_scrollView setZoomScale:_scrollView.minimumZoomScale];
     CGPoint point = CGPointZero;
     [_showView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
@@ -597,7 +597,7 @@
     
     NSArray *array = [NSArray arrayWithArray:[_fetchController queryDataWithKeywords:keyWords
                                                                               InEntitys:@{@"Area": @[@"a_name", @"a_organization", @"a_info"]}
-                                                                              SortByKey:nil]];
+                                                                           SortByKey:@{@"Area": @"a_id"}]];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"a_floor == %@", _floor];
     
