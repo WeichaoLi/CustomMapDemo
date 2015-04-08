@@ -282,9 +282,9 @@
     Area *area = (Area *)para;
     if ([area.a_type intValue] == 1) {
         //部门
-        [_showArray addObjectsFromArray:[_fetchController queryDataWithPredicate:[NSPredicate predicateWithFormat:@"a_organization == %@",area.a_organization]
-                                        InEntity:_entityName
-                                       SortByKey:@"a_id"]];
+        [_showArray addObjectsFromArray:[_fetchController queryDataWithPredicate:[NSPredicate predicateWithFormat:@"a_organization == %@ AND a_floor == %@",area.a_organization, _floor]
+                                                                        InEntity:_entityName
+                                                                       SortByKey:@"a_id"]];
     }else if ([area.a_type intValue] == 3){
         //窗口
         [_showArray addObject:para];
@@ -362,7 +362,7 @@
             }
         }
     }
-    [_scrollView zoomToRect:CGRectMake(point.x*initalScale, point.y*initalScale, 10, 10) animated:YES];
+    [_scrollView zoomToRect:[self getRectWithScale:_scrollView.maximumZoomScale andCenter:CGPointMake(point.x * initalScale, point.y * initalScale)] animated:YES];
 }
 
 - (void)addDisplayViewWithFrame:(CGRect)frame Scale:(CGFloat)scale Points:(NSString *)pointString Parameter:(id)para {
@@ -499,26 +499,22 @@
 #pragma mark - Tap gesture
 
 - (void)didDoubleTap:(UITapGestureRecognizer*)gesture {
-    CGPoint touchPoint = [gesture locationInView:_scrollView];
-//    if (_scrollView.zoomScale != _scrollView.minimumZoomScale) {
-//        [_scrollView setZoomScale:_scrollView.minimumZoomScale animated:YES];
-//    }else {
-//        [UIView animateWithDuration:0.4f animations:^{
-//            [_scrollView setZoomScale:_scrollView.maximumZoomScale animated:NO];
-//            CGFloat X = touchPoint.x * _scrollView.maximumZoomScale - _scrollView.contentOffset.x - _scrollView.center.x;
-//            CGFloat Y = touchPoint.y * _scrollView.maximumZoomScale - _scrollView.contentOffset.y - _scrollView.center.y;
-//            X = X>0?(MIN(X, _scrollView.contentSize.width - _scrollView.frame.size.width)):MAX(X, 0);
-//            Y = Y>0?(MIN(Y, _scrollView.contentSize.height - _scrollView.frame.size.height)):MAX(Y, 0);
-//            [_scrollView setContentOffset:CGPointMake(X, Y)];
-//        }completion:^(BOOL finished){
-//            
-//        }];
-//    }
+    CGPoint touchPoint = [gesture locationInView:_containerView];
+    NSLog(@"%@",NSStringFromCGPoint(touchPoint));
     if (_scrollView.zoomScale != _scrollView.minimumZoomScale) {
         [_scrollView setZoomScale:_scrollView.minimumZoomScale animated:YES];
     }else {
-        [_scrollView zoomToRect:CGRectMake(touchPoint.x, touchPoint.y, 0, 0) animated:YES];
+        [_scrollView zoomToRect:[self getRectWithScale:_scrollView.maximumZoomScale/2 andCenter:touchPoint] animated:YES];
     }
+}
+
+- (CGRect)getRectWithScale:(float)scale andCenter:(CGPoint)center{
+    CGRect newRect;
+    newRect.size.width=_scrollView.frame.size.width/scale;
+    newRect.size.height=_scrollView.frame.size.height/scale;
+    newRect.origin.x=center.x-newRect.size.width/2;
+    newRect.origin.y=center.y-newRect.size.height/2;
+    return newRect;
 }
 
 #pragma mark - UIGestureRecognizerDelegate
@@ -599,17 +595,16 @@
 - (void)searchWithKeywords:(NSString *)keyWords {
     
     
-    _showArray = [NSMutableArray arrayWithArray:[_fetchController queryDataWithKeywords:keyWords
-                                                                              InEntitys:@{@"Area": @[@"a_name", @"a_organization", @"a_info"],
-                                                                                          }
+    NSArray *array = [NSArray arrayWithArray:[_fetchController queryDataWithKeywords:keyWords
+                                                                              InEntitys:@{@"Area": @[@"a_name", @"a_organization", @"a_info"]}
                                                                               SortByKey:nil]];
     
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"a_floor == %@", _floor];
     
-    
-    popTableViewController.dataArray = _showArray;
+    popTableViewController.dataArray = [array filteredArrayUsingPredicate:predicate];
     popTableViewController.headerTitle = NSLocalizedString(@"搜索结果", nil);
     
-    if (_showArray.count) {
+    if (popTableViewController.dataArray.count) {
         [popTableViewController showInView:self.view];
     }else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil

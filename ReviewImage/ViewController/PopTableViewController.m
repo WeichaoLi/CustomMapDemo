@@ -37,6 +37,11 @@
     [_tableView setTableFooterView:footerView];
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    UITouch *touch = [touches anyObject];
+    NSLog(@"%@",touch.view);
+}
+
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     [self.view removeFromSuperview];
     [self setIsShow:NO];
