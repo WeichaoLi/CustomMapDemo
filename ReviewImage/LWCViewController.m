@@ -37,7 +37,7 @@
     
     UIButton *button = (UIButton *)sender;
     if (button.tag == 0) {
-        NSURL *url = [[NSURL alloc] initWithString:@"http://192.168.16.104:8888/111.csv"];
+        NSURL *url = [NSURL URLWithString:@"http://192.168.16.104:8888/111.csv"];
         NSError *error = nil;
         NSString *str = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&error];
         if (str.length) {

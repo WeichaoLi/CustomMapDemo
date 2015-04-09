@@ -53,19 +53,13 @@
 
 - (void)setFloor:(NSString *)floor {
     if (floor && ![_floor isEqualToString:floor]) {
-        
-        CATransition *transition = [CATransition animation];
-        [transition setDuration:1.f];
-        transition.type = kCATransitionFade;
-        [_containerView.layer addAnimation:transition forKey:@"changeImage"];
-        
         _floor = floor;
-        self.imageView.image = nil;
-        
         if ([_floor isEqualToString:@"L1"]) {
             [self loadImage:@"groundOne.png"];
+            [self showPrompt:@"一楼"];
         }else {
             [self loadImage:@"groundTwo.png"];
+            [self showPrompt:@"二楼"];
         }
     }
 }
@@ -297,6 +291,14 @@
     _showArray = [NSMutableArray array];
     
     Area *area = (Area *)para;
+    if (![area.a_floor isEqualToString:_floor]) {
+        CATransition *transition = [CATransition animation];
+        [transition setDuration:1.2f];
+        transition.type = @"fade";
+//        transition.type = @"rippleEffect";
+        transition.subtype = kCATransitionFromLeft;
+        [_containerView.layer addAnimation:transition forKey:@"changeImage"];
+    }
     [self setFloor:area.a_floor];
     if ([area.a_type intValue] == 1) {
         //部门
@@ -542,8 +544,7 @@
     return YES;
 }
 
-/*
-#pragma mark - 提示视图，例如图片已扩大到最大比例
+#pragma mark - 提示框
 
 - (void)showPrompt:(NSString *)message {
     if (promptLable == nil) {
@@ -562,14 +563,19 @@
         
         [self.view insertSubview:promptLable aboveSubview:_scrollView];
     }
+    promptLable.alpha = 0.8;
     promptLable.hidden = NO;
     promptLable.text = message;
     [self performSelector:@selector(hiddenPrompt) withObject:nil afterDelay:1.5f];
 }
 
 - (void)hiddenPrompt {
-    promptLable.hidden = YES;
-}*/
+    [UIView animateWithDuration:1.0 animations:^{
+        promptLable.alpha = 0;
+    } completion:^(BOOL finish) {
+        promptLable.hidden = YES;
+    }];
+}
 
 #pragma mark - Rotation
 
