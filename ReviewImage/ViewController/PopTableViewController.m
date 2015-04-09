@@ -9,6 +9,9 @@
 #import "PopTableViewController.h"
 #import "Area.h"
 
+#define width_scale self.view.bounds.size.width/320
+#define height_scale self.view.bounds.size.height/568
+
 @implementation PopTableViewController {
     UIView *sectionHeader;
     UIView *sectionFooter;
@@ -25,7 +28,7 @@
     bgView.alpha = 0.5;
     [self.view addSubview:bgView];
     
-    CGRect frame = CGRectMake((self.view.bounds.size.width - 220)/2, (self.view.bounds.size.height - 470)/2, 220, 470);
+    CGRect frame = CGRectMake((self.view.bounds.size.width - 250*width_scale)/2, (self.view.bounds.size.height - 468*height_scale)/2 - 20, 250*width_scale, 468*height_scale);
     self.tableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
     self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
@@ -35,6 +38,25 @@
     
     UIView *footerView = [[UIView alloc] init];
     [_tableView setTableFooterView:footerView];
+    
+    UIButton *cancelButton = [[UIButton alloc] initWithFrame:CGRectMake(_tableView.frame.origin.x, _tableView.frame.origin.y + _tableView.frame.size.height, _tableView.frame.size.width, 40)];
+    cancelButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+    [cancelButton setBackgroundColor:[UIColor whiteColor]];
+    [cancelButton setTitle:@"取消" forState:UIControlStateNormal];
+    [self drawRect:cancelButton];
+    [cancelButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [cancelButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
+    [self.view insertSubview:cancelButton aboveSubview:_tableView];
+}
+
+- (void)drawRect:(UIView *)view {
+//    view.layer.shadowColor = [UIColor blackColor].CGColor;
+//    view.layer.shadowOffset = CGSizeMake(0.0, -2.0);
+    view.layer.borderWidth = 0.5f;
+    view.layer.borderColor = [UIColor lightGrayColor].CGColor;
+//    view.layer.shadowOpacity = 1;
+//    view.layer.shadowRadius = 10.0;
+//    view.layer.cornerRadius = 20.0;
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -104,12 +126,26 @@
     return sectionHeader;
 }
 
+//- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+//    UIButton *cancelButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, _tableView.frame.size.width, 40)];
+//    [cancelButton setBackgroundColor:[UIColor whiteColor]];
+//    [cancelButton setTitle:@"取消" forState:UIControlStateNormal];
+//    [self drawRect:cancelButton];
+//    [cancelButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//    [cancelButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
+//    return cancelButton;
+//}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (_headerTitle) {
-        return 30;
+        return 40;
     }
     return 0;
 }
+
+//- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+//    return 0;
+//}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.selectCell) {

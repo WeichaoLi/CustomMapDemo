@@ -251,13 +251,13 @@
     NSPredicate *predicate = nil;
     if (button.tag == 110) {
         _searchType = SearchDepartment;
-        popTableViewController.headerTitle = NSLocalizedString( @"请选择部门", nil);
+//        popTableViewController.headerTitle = NSLocalizedString( @"请选择部门", nil);
         predicate = [NSPredicate predicateWithFormat:@"a_floor == %@ AND a_type == '1' AND a_number == '0'",_floor];
     }
     
     if (button.tag == 111) {
         _searchType = SearchWindow;
-        popTableViewController.headerTitle = NSLocalizedString(@"请选择窗口", nil);
+//        popTableViewController.headerTitle = NSLocalizedString(@"请选择窗口", nil);
         predicate = [NSPredicate predicateWithFormat:@"a_floor == %@ AND a_type == '3' AND a_number == '0'",_floor];
         
     }
@@ -362,7 +362,7 @@
             }
         }
     }
-    [_scrollView zoomToRect:[self getRectWithScale:_scrollView.maximumZoomScale andCenter:CGPointMake(point.x * initalScale, point.y * initalScale)] animated:YES];
+    [_scrollView zoomToRect:[self getRectWithScale:3 andCenter:CGPointMake(point.x * initalScale, point.y * initalScale)] animated:YES];
 }
 
 - (void)addDisplayViewWithFrame:(CGRect)frame Scale:(CGFloat)scale Points:(NSString *)pointString Parameter:(id)para {
@@ -504,7 +504,7 @@
     if (_scrollView.zoomScale != _scrollView.minimumZoomScale) {
         [_scrollView setZoomScale:_scrollView.minimumZoomScale animated:YES];
     }else {
-        [_scrollView zoomToRect:[self getRectWithScale:_scrollView.maximumZoomScale/2 andCenter:touchPoint] animated:YES];
+        [_scrollView zoomToRect:[self getRectWithScale:3 andCenter:touchPoint] animated:YES];
     }
 }
 
@@ -602,7 +602,7 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"a_floor == %@", _floor];
     
     popTableViewController.dataArray = [array filteredArrayUsingPredicate:predicate];
-    popTableViewController.headerTitle = NSLocalizedString(@"搜索结果", nil);
+//    popTableViewController.headerTitle = NSLocalizedString(@"搜索结果", nil);
     
     if (popTableViewController.dataArray.count) {
         [popTableViewController showInView:self.view];
