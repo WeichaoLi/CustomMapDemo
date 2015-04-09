@@ -17,6 +17,8 @@
 
 @implementation CustomMapViewController {
     PopTableViewController *popTableViewController;
+    
+    NSString *initalFloor;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -31,8 +33,9 @@
             self.automaticallyAdjustsScrollViewInsets = NO;
         }
 #endif
-        
         [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"BG_navBar"] forBarMetrics:UIBarMetricsDefault];
+        
+        initalFloor = @"L1";
     }
     return self;
 }
@@ -42,18 +45,39 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    _floor = @"L1";
     _entityName = @"Area";
     self.fetchController = [[FetchController alloc] initWithEntity:_entityName WithSortKey:@"a_id"];
     
     _showArray = [NSMutableArray array];
 }
 
+- (void)setFloor:(NSString *)floor {
+    if (floor && ![_floor isEqualToString:floor]) {
+        
+        CATransition *transition = [CATransition animation];
+        [transition setDuration:1.f];
+        transition.type = kCATransitionFade;
+        [_containerView.layer addAnimation:transition forKey:@"changeImage"];
+        
+        _floor = floor;
+        self.imageView.image = nil;
+        
+        if ([_floor isEqualToString:@"L1"]) {
+            [self loadImage:@"groundOne.png"];
+        }else {
+            [self loadImage:@"groundTwo.png"];
+        }
+    }
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     _scrollView.bounds = self.view.bounds;
-    [self loadImage];
+
+    if (!_floor) {
+        [self setFloor:initalFloor];
+    }
     
 //    LWCViewController *lwcVC = [[LWCViewController alloc] init];
 //    [self.navigationController pushViewController:lwcVC animated:YES];
@@ -122,7 +146,6 @@
 
 - (void)loadView {
     [super loadView];
-    NSLog(@"%s",__func__);
     
     self.view.clipsToBounds = YES;
     self.view.contentMode = UIViewContentModeScaleAspectFill;
@@ -160,17 +183,16 @@
 /**
  *  加载图片
  */
-- (void)loadImage {
-    if (_imageView == nil) {
-        @autoreleasepool {
-            NSString *filePath = [[NSBundle mainBundle] pathForResource:@"groundOne.png" ofType:@""];
-            NSData *imageData = [NSData dataWithContentsOfFile:filePath];
-            UIImage *image = [UIImage imageWithData:imageData];
-            image = [self compressImageWith:image];
-            self.imageView = [[UIImageView alloc] initWithImage:image];
-            [self imageDidChange];
-        }
+- (void)loadImage:(NSString *)imageName {
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@""];
+    NSData *imageData = [NSData dataWithContentsOfFile:filePath];
+    UIImage *image = [UIImage imageWithData:imageData];
+    image = [self compressImageWith:image];
+    if (!self.imageView) {
+        self.imageView = [[UIImageView alloc] init];
     }
+    [self.imageView setImage:image];
+    [self imageDidChange];
 }
 
 - (UIImage *)compressImageWith:(UIImage *)image {
@@ -199,7 +221,6 @@
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     // 使当前的context出堆栈
     UIGraphicsEndImageContext();
-    NSLog(@"hou:  %@",NSStringFromCGSize(newImage.size));
     return newImage;
     
 }
@@ -208,13 +229,13 @@
 
 - (void)setImageView:(UIImageView *)imageView {
     if(imageView != _imageView){
-        [_imageView removeObserver:self forKeyPath:@"image"];
+//        [_imageView removeObserver:self forKeyPath:@"image"];
         [_imageView removeFromSuperview];
         
         _imageView = imageView;
         _imageView.frame = _imageView.bounds;
         
-        [_imageView addObserver:self forKeyPath:@"image" options:0 context:nil];
+//        [_imageView addObserver:self forKeyPath:@"image" options:0 context:nil];
         
         [_containerView insertSubview:_imageView atIndex:0];
         
@@ -252,13 +273,13 @@
     if (button.tag == 110) {
         _searchType = SearchDepartment;
 //        popTableViewController.headerTitle = NSLocalizedString( @"请选择部门", nil);
-        predicate = [NSPredicate predicateWithFormat:@"a_floor == %@ AND a_type == '1' AND a_number == '0'",_floor];
+        predicate = [NSPredicate predicateWithFormat:@"a_type == '1' AND a_number == '0'"];
     }
     
     if (button.tag == 111) {
         _searchType = SearchWindow;
 //        popTableViewController.headerTitle = NSLocalizedString(@"请选择窗口", nil);
-        predicate = [NSPredicate predicateWithFormat:@"a_floor == %@ AND a_type == '3' AND a_number == '0'",_floor];
+        predicate = [NSPredicate predicateWithFormat:@"a_type == '3' AND a_number == '0'"];
         
     }
      popTableViewController.dataArray = [_fetchController queryDataWithPredicate:predicate InEntity:_entityName SortByKey:@"a_id"];
@@ -275,14 +296,11 @@
     //清空显示列表
     _showArray = [NSMutableArray array];
     
-//    if(para) {
-//        [_showArray addObject:para];
-//    }
-    
     Area *area = (Area *)para;
+    [self setFloor:area.a_floor];
     if ([area.a_type intValue] == 1) {
         //部门
-        [_showArray addObjectsFromArray:[_fetchController queryDataWithPredicate:[NSPredicate predicateWithFormat:@"a_organization == %@ AND a_floor == %@",area.a_organization, _floor]
+        [_showArray addObjectsFromArray:[_fetchController queryDataWithPredicate:[NSPredicate predicateWithFormat:@"a_organization == %@",area.a_organization]
                                                                         InEntity:_entityName
                                                                        SortByKey:@"a_id"]];
     }else if ([area.a_type intValue] == 3){
@@ -433,8 +451,9 @@
     
     NSMutableArray *array = [NSMutableArray array];
     [array addObjectsFromArray:_fetchController.fetchedResultsController.fetchedObjects];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"a_floor == %@", _floor];
     
-    array = [NSMutableArray arrayWithArray:[GeoSearch geoCoordinateWithArray:array
+    array = [NSMutableArray arrayWithArray:[GeoSearch geoCoordinateWithArray:[array filteredArrayUsingPredicate:predicate]
                                                                      AtPoint:point
                                                                    WithScale:initalScale
                                                                       InRect:_showView.bounds]];
@@ -599,9 +618,10 @@
                                                                               InEntitys:@{@"Area": @[@"a_name", @"a_organization", @"a_info"]}
                                                                            SortByKey:@{@"Area": @"a_id"}]];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"a_floor == %@", _floor];
-    
-    popTableViewController.dataArray = [array filteredArrayUsingPredicate:predicate];
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"a_floor == %@", _floor];
+//    
+//    popTableViewController.dataArray = [array filteredArrayUsingPredicate:predicate];
+    popTableViewController.dataArray = array;
 //    popTableViewController.headerTitle = NSLocalizedString(@"搜索结果", nil);
     
     if (popTableViewController.dataArray.count) {

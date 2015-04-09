@@ -13,6 +13,8 @@
 		1B7EEF931AC1281700E8CD8F /* LWCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B7EEF911AC1281700E8CD8F /* LWCViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1B7EEF941AC1281700E8CD8F /* LWCViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B7EEF921AC1281700E8CD8F /* LWCViewController.xib */; };
 		1BB4D8691A0225D7004A2A89 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BB4D8681A0225D7004A2A89 /* AssetsLibrary.framework */; };
+		1BC685891AD661CB00681578 /* PopViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC685881AD661CB00681578 /* PopViewCell.m */; };
+		1BC685C31AD669E700681578 /* PopViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BC685C21AD669E700681578 /* PopViewCell.xib */; };
 		1BC9C69B1ACCEF0800F18165 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BC9C69A1ACCEF0800F18165 /* Images.xcassets */; };
 		1BC9C6C01ACCF6DE00F18165 /* Default-1334h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BC9C6BC1ACCF6DE00F18165 /* Default-1334h@2x.png */; };
 		1BC9C6C11ACCF6DE00F18165 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BC9C6BD1ACCF6DE00F18165 /* Default-568h@2x.png */; };
@@ -32,7 +34,7 @@
 		1BD48FD31AD38D6B007D6350 /* BG_navBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BD48FCE1AD38D6B007D6350 /* BG_navBar.png */; };
 		1BD48FD41AD38D6B007D6350 /* BG_navBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BD48FCF1AD38D6B007D6350 /* BG_navBar@2x.png */; };
 		1BD48FD51AD38D6B007D6350 /* groundOne.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BD48FD01AD38D6B007D6350 /* groundOne.png */; };
-		1BD48FD61AD38D6B007D6350 /* groundSecond.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1BD48FD11AD38D6B007D6350 /* groundSecond.jpg */; };
+		1BD48FD61AD38D6B007D6350 /* groundTwo.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BD48FD11AD38D6B007D6350 /* groundTwo.png */; };
 		1BD48FD71AD38D6B007D6350 /* location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BD48FD21AD38D6B007D6350 /* location@2x.png */; };
 		1BD48FDD1AD3BF67007D6350 /* Area.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD48FDC1AD3BF67007D6350 /* Area.m */; };
 		1BDC1BD41ACE420E00F6C67D /* GeoSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC1BD31ACE420E00F6C67D /* GeoSearch.m */; };
@@ -68,6 +70,9 @@
 		1B7EEF921AC1281700E8CD8F /* LWCViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LWCViewController.xib; path = ReviewImage/LWCViewController.xib; sourceTree = "<group>"; };
 		1B87CD081A244D5C005DBDDB /* ReviewImage.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ReviewImage.entitlements; sourceTree = "<group>"; };
 		1BB4D8681A0225D7004A2A89 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		1BC685871AD661CB00681578 /* PopViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopViewCell.h; sourceTree = "<group>"; };
+		1BC685881AD661CB00681578 /* PopViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopViewCell.m; sourceTree = "<group>"; };
+		1BC685C21AD669E700681578 /* PopViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopViewCell.xib; sourceTree = "<group>"; };
 		1BC9C69A1ACCEF0800F18165 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		1BC9C6BC1ACCF6DE00F18165 /* Default-1334h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-1334h@2x.png"; sourceTree = "<group>"; };
 		1BC9C6BD1ACCF6DE00F18165 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -91,7 +96,7 @@
 		1BD48FCE1AD38D6B007D6350 /* BG_navBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BG_navBar.png; sourceTree = "<group>"; };
 		1BD48FCF1AD38D6B007D6350 /* BG_navBar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BG_navBar@2x.png"; sourceTree = "<group>"; };
 		1BD48FD01AD38D6B007D6350 /* groundOne.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = groundOne.png; sourceTree = "<group>"; };
-		1BD48FD11AD38D6B007D6350 /* groundSecond.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = groundSecond.jpg; sourceTree = "<group>"; };
+		1BD48FD11AD38D6B007D6350 /* groundTwo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = groundTwo.png; sourceTree = "<group>"; };
 		1BD48FD21AD38D6B007D6350 /* location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location@2x.png"; sourceTree = "<group>"; };
 		1BD48FDB1AD3BF67007D6350 /* Area.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Area.h; sourceTree = "<group>"; };
 		1BD48FDC1AD3BF67007D6350 /* Area.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Area.m; sourceTree = "<group>"; };
@@ -257,7 +262,7 @@
 				1BD48FCE1AD38D6B007D6350 /* BG_navBar.png */,
 				1BD48FCF1AD38D6B007D6350 /* BG_navBar@2x.png */,
 				1BD48FD01AD38D6B007D6350 /* groundOne.png */,
-				1BD48FD11AD38D6B007D6350 /* groundSecond.jpg */,
+				1BD48FD11AD38D6B007D6350 /* groundTwo.png */,
 				1BD48FD21AD38D6B007D6350 /* location@2x.png */,
 			);
 			path = resource;
@@ -302,6 +307,9 @@
 				1BDC1C391ACE758C00F6C67D /* CoverView.m */,
 				1BDC1C3A1ACE758C00F6C67D /* DetailView.h */,
 				1BDC1C3B1ACE758C00F6C67D /* DetailView.m */,
+				1BC685871AD661CB00681578 /* PopViewCell.h */,
+				1BC685881AD661CB00681578 /* PopViewCell.m */,
+				1BC685C21AD669E700681578 /* PopViewCell.xib */,
 			);
 			path = CommonView;
 			sourceTree = "<group>";
@@ -404,8 +412,9 @@
 				1BC9C6C01ACCF6DE00F18165 /* Default-1334h@2x.png in Resources */,
 				1BC9C6C31ACCF6DE00F18165 /* Default@3x.png in Resources */,
 				1BD48FD31AD38D6B007D6350 /* BG_navBar.png in Resources */,
-				1BD48FD61AD38D6B007D6350 /* groundSecond.jpg in Resources */,
+				1BD48FD61AD38D6B007D6350 /* groundTwo.png in Resources */,
 				1BD213F319FE193900EA3C91 /* InfoPlist.strings in Resources */,
+				1BC685C31AD669E700681578 /* PopViewCell.xib in Resources */,
 				1B7EEF941AC1281700E8CD8F /* LWCViewController.xib in Resources */,
 				1BC9C6C11ACCF6DE00F18165 /* Default-568h@2x.png in Resources */,
 				1BC9C6C21ACCF6DE00F18165 /* Default@2x.png in Resources */,
@@ -466,6 +475,7 @@
 			files = (
 				1BD48FDD1AD3BF67007D6350 /* Area.m in Sources */,
 				1BDC1C3D1ACE758C00F6C67D /* CoverView.m in Sources */,
+				1BC685891AD661CB00681578 /* PopViewCell.m in Sources */,
 				1BDC1C2B1ACE756900F6C67D /* CustomMapViewController.m in Sources */,
 				1B7EEF931AC1281700E8CD8F /* LWCViewController.m in Sources */,
 				1BDC1C3E1ACE758C00F6C67D /* DetailView.m in Sources */,

@@ -8,6 +8,7 @@
 
 #import "PopTableViewController.h"
 #import "Area.h"
+#import "PopViewCell.h"
 
 #define width_scale self.view.bounds.size.width/320
 #define height_scale self.view.bounds.size.height/568
@@ -96,15 +97,24 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *identifier = @"Cell";
+    static BOOL isRegister = NO;
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    if (!isRegister) {
+        UINib *nib = [UINib nibWithNibName:@"PopViewCell" bundle:nil];
+        [tableView registerNib:nib forCellReuseIdentifier:identifier];
+        isRegister = YES;
     }
+    PopViewCell *cell = (PopViewCell *)[tableView dequeueReusableCellWithIdentifier:identifier];
     
     id obj = _dataArray[indexPath.row];
     Area *area = (Area *)obj;
-    cell.textLabel.text = area.a_name;
+    
+    if ([area.a_floor isEqualToString:@"L1"]) {
+        cell.labelDetail.text = @"一楼";
+    }else {
+        cell.labelDetail.text = @"二楼";
+    }
+    cell.labelName.text = area.a_name;
     
     return cell;
 }

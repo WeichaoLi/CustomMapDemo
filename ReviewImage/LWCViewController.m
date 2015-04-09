@@ -59,7 +59,9 @@
                 area.a_endX =       [NSNumber numberWithInt:[temp[7] floatValue]];
                 area.a_endY =       [NSNumber numberWithInt:[temp[8] floatValue]];
                 area.a_organization = temp[9];
-                area.a_info =       temp[10];
+                if (temp.count > 10) {
+                    area.a_info =       temp[10];
+                }
             }
             
             //保存
@@ -103,12 +105,12 @@
         /**
          *  方法二
          */
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Window"];
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"wd_name like '收养登记'"];
-        [fetchRequest setPredicate:predicate];
-        NSError *error = nil;
-        NSArray *array = [_fetchController.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-        [fetchRequest release];
+//        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Window"];
+//        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"wd_name like '收养登记'"];
+//        [fetchRequest setPredicate:predicate];
+//        NSError *error = nil;
+//        NSArray *array = [_fetchController.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+//        [fetchRequest release];
 //        NSEntityDescription *entityDes = [NSEntityDescription entityForName:@"Window" inManagedObjectContext:_fetchController.managedObjectContext];
 //        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"wd_name like '收养登记'"];
 //        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
