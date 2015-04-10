@@ -54,10 +54,10 @@
                 area.a_type =       [NSNumber numberWithInt:[temp[2] intValue]];
                 area.a_number =     temp[3];
                 area.a_floor =      temp[4];
-                area.a_originX =    [NSNumber numberWithInt:[temp[5] floatValue]];
-                area.a_originY =    [NSNumber numberWithInt:[temp[6] floatValue]];
-                area.a_endX =       [NSNumber numberWithInt:[temp[7] floatValue]];
-                area.a_endY =       [NSNumber numberWithInt:[temp[8] floatValue]];
+                area.a_originX =    [NSNumber numberWithFloat:[temp[5] floatValue]];
+                area.a_originY =    [NSNumber numberWithFloat:[temp[6] floatValue]];
+                area.a_endX =       [NSNumber numberWithFloat:[temp[7] floatValue]];
+                area.a_endY =       [NSNumber numberWithFloat:[temp[8] floatValue]];
                 area.a_organization = temp[9];
                 if (temp.count > 10) {
                     area.a_info =       temp[10];

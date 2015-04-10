@@ -46,6 +46,8 @@ typedef NS_ENUM(NSInteger, ImageOrientation) {
 @property (nonatomic, readonly) UIScrollView        *scrollView;
 @property (nonatomic, retain) NSString              *ImageURL;
 @property (nonatomic, retain) UIImageView           *imageView;
+@property (nonatomic, retain) UIImageView           *imageView_floor1;
+@property (nonatomic, retain) UIImageView           *imageView_floor2;
 @property (nonatomic, assign) ImageOrientation      imageOrientation;
 @property (nonatomic, assign) SearchType            searchType;
 @property (nonatomic, retain) UIView                *containerView;

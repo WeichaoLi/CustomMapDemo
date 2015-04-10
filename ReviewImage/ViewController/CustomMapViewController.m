@@ -55,10 +55,18 @@
     if (floor && ![_floor isEqualToString:floor]) {
         _floor = floor;
         if ([_floor isEqualToString:@"L1"]) {
-            [self loadImage:@"groundOne.png"];
+            [_imageView_floor2 setHidden:YES];
+            [_imageView_floor1 setHidden:NO];
+            if (!_imageView_floor1) {
+                [self loadImage:@"groundOne.png"];
+            }
             [self showPrompt:@"一楼"];
         }else {
-            [self loadImage:@"groundTwo.png"];
+            [_imageView_floor2 setHidden:NO];
+            [_imageView_floor1 setHidden:YES];
+            if (!_imageView_floor2) {
+                [self loadImage:@"groundTwo.png"];
+            }            
             [self showPrompt:@"二楼"];
         }
     }
@@ -182,10 +190,16 @@
     NSData *imageData = [NSData dataWithContentsOfFile:filePath];
     UIImage *image = [UIImage imageWithData:imageData];
     image = [self compressImageWith:image];
-    if (!self.imageView) {
-        self.imageView = [[UIImageView alloc] init];
+    if ([_floor isEqualToString:@"L1"]) {
+        if (!_imageView_floor1) {
+            self.imageView_floor1 = [[UIImageView alloc] init];
+        }
+    }else {
+        if (!_imageView_floor2) {
+            self.imageView_floor2 = [[UIImageView alloc] init];
+        }
     }
-    [self.imageView setImage:image];
+    [_imageView setImage:image];
     [self imageDidChange];
 }
 
@@ -221,25 +235,51 @@
 
 #pragma mark- 属性设置
 
-- (void)setImageView:(UIImageView *)imageView {
-    if(imageView != _imageView){
+- (void)setImageView_floor1:(UIImageView *)imageView {
+    if(imageView != _imageView_floor1){
 //        [_imageView removeObserver:self forKeyPath:@"image"];
-        [_imageView removeFromSuperview];
+        [_imageView_floor1 removeFromSuperview];
         
-        _imageView = imageView;
-        _imageView.frame = _imageView.bounds;
+        _imageView_floor1 = imageView;
+        _imageView_floor1.frame = _imageView_floor1.bounds;
         
 //        [_imageView addObserver:self forKeyPath:@"image" options:0 context:nil];
         
-        [_containerView insertSubview:_imageView atIndex:0];
+        [_containerView insertSubview:_imageView_floor1 atIndex:0];
         
         _scrollView.zoomScale = 1;
         _scrollView.contentOffset = CGPointZero;
-        _containerView.bounds = _imageView.bounds;
+        _containerView.bounds = _imageView_floor1.bounds;
         
         [self resetZoomScale];
         _scrollView.zoomScale  = _scrollView.minimumZoomScale;
         [self scrollViewDidZoom:_scrollView];
+        
+        self.imageView = _imageView_floor1;
+    }
+}
+
+- (void)setImageView_floor2:(UIImageView *)imageView {
+    if(imageView != _imageView_floor2){
+        //        [_imageView removeObserver:self forKeyPath:@"image"];
+        [_imageView_floor2 removeFromSuperview];
+        
+        _imageView_floor2 = imageView;
+        _imageView_floor2.frame = _imageView_floor2.bounds;
+        
+        //        [_imageView addObserver:self forKeyPath:@"image" options:0 context:nil];
+        
+        [_containerView insertSubview:_imageView_floor2 atIndex:0];
+        
+        _scrollView.zoomScale = 1;
+        _scrollView.contentOffset = CGPointZero;
+        _containerView.bounds = _imageView_floor2.bounds;
+        
+        [self resetZoomScale];
+        _scrollView.zoomScale  = _scrollView.minimumZoomScale;
+        [self scrollViewDidZoom:_scrollView];
+        
+        self.imageView = _imageView_floor2;
     }
 }
 
